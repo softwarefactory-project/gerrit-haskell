@@ -1,13 +1,20 @@
--- |
--- Copyright: (c) 2020 software factory dev
--- SPDX-License-Identifier: Apache-2.0
--- Maintainer: Software Factory Dev <softwarefactory-dev@redhat.com>
---
--- A gerrit client
+-- | The gerrit client entrypoint
 module Gerrit
-  ( someFunc,
+  ( withClient,
+    getVersion,
+    queryChanges,
+    GerritVersion (..),
+    GerritQuery (..),
+    GerritChange (..),
   )
 where
 
-someFunc :: IO ()
-someFunc = putStrLn ("someFunc" :: String)
+import Gerrit.Client
+import Gerrit.Data
+import Network.HTTP.Req ((/:), MonadHttp)
+
+getVersion :: MonadHttp m => GerritClient -> m GerritVersion
+getVersion = gerritGet (\x -> x /: "config" /: "server" /: "version")
+
+queryChanges :: MonadHttp m => [GerritQuery] -> GerritClient -> m [GerritChange]
+queryChanges _queries = gerritGet (\x -> x /: "changes" /: "")
