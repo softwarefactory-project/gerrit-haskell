@@ -25,13 +25,20 @@ data GerritChangeStatus = NEW | MERGED | ABANDONED | DRAFT
   deriving stock (Show, Generic)
   deriving anyclass (FromJSON)
 
+-- https://gerrit-review.googlesource.com/Documentation/user-search.html
 data GerritQuery
   = Status GerritChangeStatus
   | Owner Text
+  | CommitMessage Text
+  | Project Text
+  | ChangeId Text
 
 queryText :: GerritQuery -> Text
 queryText (Status stat) = "status:" <> T.toLower (T.pack $ show stat)
 queryText (Owner owner) = "owner:" <> owner
+queryText (CommitMessage message) = "message:" <> message
+queryText (Project project) = "project:" <> project
+queryText (ChangeId changeId) = "change:" <> changeId
 
 data GerritChange
   = GerritChange
@@ -40,7 +47,7 @@ data GerritChange
         branch :: Text,
         subject :: Text,
         status :: GerritChangeStatus,
-        mergeable :: Bool
+        mergeable :: Maybe Bool
       }
   deriving stock (Show, Generic)
   deriving anyclass (FromJSON)
