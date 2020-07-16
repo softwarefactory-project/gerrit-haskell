@@ -1,0 +1,20 @@
+{
+  "id": "software-factory%2Fgerrit-haskell~master~Ic6add806c49bccaf6e15d4ef1c62522d56eb9384",
+  "project": "software-factory/gerrit-haskell",
+  "branch": "master",
+  "hashtags": [],
+  "change_id": "Ic6add806c49bccaf6e15d4ef1c62522d56eb9384",
+  "subject": "Initial summon",
+  "status": "NEW",
+  "created": "2020-07-15 19:39:55.000000000",
+  "updated": "2020-07-15 23:01:14.000000000",
+  "submit_type": "MERGE_IF_NECESSARY",
+  "mergeable": true,
+  "insertions": 295,
+  "deletions": 0,
+  "unresolved_comment_count": 0,
+  "_number": 18839,
+  "owner": {
+    "_account_id": 7
+  }
+}

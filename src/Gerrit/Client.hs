@@ -25,8 +25,8 @@ withClient :: Text -> Maybe Text -> (GerritClient -> Req ()) -> IO ()
 withClient host path f = runReq defaultHttpConfig $ f (GerritClient {..})
   where
     url = case path of
-      Just p -> (https host /: p)
-      Nothing -> (https host)
+      Just p -> https host /: p
+      Nothing -> https host
 
 gerritGet ::
   (MonadHttp m, FromJSON b) =>
