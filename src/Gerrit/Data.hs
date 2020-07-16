@@ -20,7 +20,7 @@ newtype GerritVersion = GerritVersion Text
   deriving anyclass (FromJSON)
 
 data GerritQuery
-  = Status Text
+  = Status GerritChangeStatus
   | Owner Text
 
 data GerritChangeStatus = NEW | MERGED | ABANDONED | DRAFT

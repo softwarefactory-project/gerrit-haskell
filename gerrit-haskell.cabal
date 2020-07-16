@@ -17,7 +17,8 @@ tested-with:         GHC == 8.6.5
 
 common common-options
   build-depends:       base
-                     , req
+                     , http-client
+                     , http-client-tls
                      , aeson
                      , bytestring
                      , text

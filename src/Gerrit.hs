@@ -11,10 +11,17 @@ where
 
 import Gerrit.Client
 import Gerrit.Data
-import Network.HTTP.Req ((/:), MonadHttp)
 
-getVersion :: MonadHttp m => GerritClient -> m GerritVersion
-getVersion = gerritGet (\x -> x /: "config" /: "server" /: "version")
+getVersion :: GerritClient -> IO GerritVersion
+getVersion = gerritGet "config/server/version"
 
-queryChanges :: MonadHttp m => [GerritQuery] -> GerritClient -> m [GerritChange]
-queryChanges _queries = gerritGet (\x -> x /: "changes" /: "")
+queryChanges :: [GerritQuery] -> GerritClient -> IO [GerritChange]
+queryChanges queries = gerritGet ("changes/?q=" <> queries' <> "&n=2") -- <> show count)
+  where
+    count :: Integer
+    count = 2
+    queries' = foldr (\gerritQuery acc -> toParam gerritQuery <> "+" <> acc) mempty queries
+    toParam (Status stat) = "status:" <> statusToParam stat
+    toParam (Owner owner) = "owner:" <> owner
+    statusToParam NEW = "new"
+    statusToParam MERGED = "merged"
