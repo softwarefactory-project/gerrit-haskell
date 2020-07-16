@@ -8,7 +8,7 @@ module Gerrit.Client
   )
 where
 
-import Data.Aeson (FromJSON, decode)
+import Data.Aeson (FromJSON, decode, eitherDecode)
 import qualified Data.ByteString.Lazy as BSL
 import Data.Maybe (fromJust)
 import Data.Text (Text, unpack)
@@ -32,4 +32,6 @@ gerritGet path GerritClient {..} =
   do
     request <- parseUrlThrow (unpack $ baseUrl <> path)
     response <- httpLbs request manager
-    pure $ fromJust $ decode $ BSL.drop 5 $ responseBody response
+    case eitherDecode $ BSL.drop 5 $ responseBody response of
+      Left err -> error $ "Decoding of " <> show (responseBody response) <> " failed with: " <> err
+      Right a -> pure a

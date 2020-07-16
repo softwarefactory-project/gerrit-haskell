@@ -3,6 +3,7 @@ module Gerrit
   ( withClient,
     getVersion,
     queryChanges,
+    GerritClient,
     GerritVersion (..),
     GerritQuery (..),
     GerritChange (..),
