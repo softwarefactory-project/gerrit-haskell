@@ -8,10 +8,12 @@ module Gerrit.Data
     GerritQuery (..),
     GerritChangeStatus (..),
     GerritChange (..),
+    queryText,
   )
 where
 
 import Data.Aeson (FromJSON)
+import qualified Data.Text as T
 import Data.Text (Text)
 import GHC.Generics (Generic)
 
@@ -19,13 +21,17 @@ newtype GerritVersion = GerritVersion Text
   deriving stock (Show, Generic)
   deriving anyclass (FromJSON)
 
-data GerritQuery
-  = Status Text
-  | Owner Text
-
 data GerritChangeStatus = NEW | MERGED | ABANDONED | DRAFT
   deriving stock (Show, Generic)
   deriving anyclass (FromJSON)
+
+data GerritQuery
+  = Status GerritChangeStatus
+  | Owner Text
+
+queryText :: GerritQuery -> Text
+queryText (Status stat) = "status:" <> (T.toLower $ T.pack $ show stat)
+queryText (Owner owner) = "owner:" <> owner
 
 data GerritChange
   = GerritChange

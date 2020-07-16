@@ -6,15 +6,22 @@ module Gerrit
     GerritVersion (..),
     GerritQuery (..),
     GerritChange (..),
+    GerritChangeStatus (..),
   )
 where
 
+import qualified Data.Text as T
 import Gerrit.Client
 import Gerrit.Data
-import Network.HTTP.Req ((/:), MonadHttp)
 
-getVersion :: MonadHttp m => GerritClient -> m GerritVersion
-getVersion = gerritGet (\x -> x /: "config" /: "server" /: "version")
+getVersion :: GerritClient -> IO GerritVersion
+getVersion = gerritGet "config/server/version"
 
-queryChanges :: MonadHttp m => [GerritQuery] -> GerritClient -> m [GerritChange]
-queryChanges _queries = gerritGet (\x -> x /: "changes" /: "")
+queryChanges :: [GerritQuery] -> GerritClient -> IO [GerritChange]
+queryChanges queries = gerritGet ("changes/?" <> queryString)
+  where
+    count :: Integer
+    count = 2
+    queryString = T.intercalate "&" [changeString, countString]
+    changeString = "q=" <> T.intercalate "+" (map queryText queries)
+    countString = "n=" <> (T.pack $ show count)

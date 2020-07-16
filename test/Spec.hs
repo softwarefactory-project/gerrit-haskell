@@ -14,10 +14,18 @@ main = do
   defaultMain (tests dataFile)
 
 tests :: ByteString -> TestTree
-tests dataFile = testGroup "Tests" [unitTests dataFile]
+tests dataFile = testGroup "Tests" [unitTests, encodingTests dataFile]
 
-unitTests :: ByteString -> TestTree
-unitTests dataFile =
+unitTests :: TestTree
+unitTests =
+  testGroup
+    "unitTests"
+    [ testCase "queryString status" $
+        assertEqual "Query string is valid" "status:new" (queryText (Status NEW))
+    ]
+
+encodingTests :: ByteString -> TestTree
+encodingTests dataFile =
   testGroup
     "FromJSON"
     [ testCase "Test GerritChange.json"
