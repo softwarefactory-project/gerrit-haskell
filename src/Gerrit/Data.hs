@@ -1,6 +1,5 @@
 {-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE DerivingStrategies #-}
 
 -- | This module contains the gerrit data type
 module Gerrit.Data
@@ -20,17 +19,14 @@ import Data.Text (Text)
 import GHC.Generics (Generic)
 
 newtype GerritVersion = GerritVersion Text
-  deriving stock (Show, Generic)
-  deriving anyclass (FromJSON)
+  deriving (Show, Generic, FromJSON)
 
 -- https://gerrit-review.googlesource.com/Documentation/json.html
 data GerritRevisionKind = REWORK | TRIVIAL_REBASE | MERGE_FIRST_PARENT_UPDATE | NO_CODE_CHANGE | NO_CHANGE
-  deriving stock (Show, Generic)
-  deriving anyclass (FromJSON)
+  deriving (Eq, Show, Generic, FromJSON)
 
 data GerritChangeStatus = NEW | MERGED | ABANDONED | DRAFT
-  deriving stock (Show, Generic)
-  deriving anyclass (FromJSON)
+  deriving (Eq, Show, Generic, FromJSON)
 
 -- https://gerrit-review.googlesource.com/Documentation/user-search.html
 data GerritQuery
@@ -52,8 +48,7 @@ data GerritRevision
       { ref :: Text,
         kind :: GerritRevisionKind
       }
-  deriving stock (Show, Generic)
-  deriving anyclass (FromJSON)
+  deriving (Show, Generic, FromJSON)
 
 data GerritChange
   = GerritChange
@@ -66,7 +61,7 @@ data GerritChange
         revisions :: M.Map Text GerritRevision,
         number :: Int
       }
-  deriving stock (Show, Generic)
+  deriving (Show, Generic)
 
 -- We use a cusom parseJSON to decode `_number` as `number`
 instance FromJSON GerritChange where

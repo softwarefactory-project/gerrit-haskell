@@ -1,5 +1,3 @@
-{-# LANGUAGE DataKinds #-}
-
 -- | This module contains the internal gerrit REST client
 module Gerrit.Client
   ( GerritClient (baseUrl),
