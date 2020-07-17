@@ -2,7 +2,7 @@
 
 -- | This module contains the internal gerrit REST client
 module Gerrit.Client
-  ( GerritClient,
+  ( GerritClient (baseUrl),
     withClient,
     gerritGet,
   )

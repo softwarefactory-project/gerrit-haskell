@@ -21,6 +21,7 @@ common common-options
                      , http-client-tls
                      , aeson
                      , bytestring
+                     , containers
                      , text
 
   ghc-options:         -Wall

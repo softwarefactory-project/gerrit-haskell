@@ -8,11 +8,13 @@ module Gerrit.Data
     GerritQuery (..),
     GerritChangeStatus (..),
     GerritChange (..),
+    GerritRevision (..),
     queryText,
   )
 where
 
-import Data.Aeson (FromJSON)
+import Data.Aeson (FromJSON, Options (fieldLabelModifier), defaultOptions, genericParseJSON, parseJSON)
+import Data.Map as M
 import qualified Data.Text as T
 import Data.Text (Text)
 import GHC.Generics (Generic)
@@ -40,6 +42,13 @@ queryText (CommitMessage message) = "message:" <> message
 queryText (Project project) = "project:" <> project
 queryText (ChangeId changeId) = "change:" <> changeId
 
+data GerritRevision
+  = GerritRevision
+      { ref :: Text
+      }
+  deriving stock (Show, Generic)
+  deriving anyclass (FromJSON)
+
 data GerritChange
   = GerritChange
       { id :: Text,
@@ -47,7 +56,16 @@ data GerritChange
         branch :: Text,
         subject :: Text,
         status :: GerritChangeStatus,
-        mergeable :: Maybe Bool
+        mergeable :: Maybe Bool,
+        revisions :: M.Map Text GerritRevision,
+        number :: Int
       }
   deriving stock (Show, Generic)
-  deriving anyclass (FromJSON)
+
+-- We use a cusom parseJSON to decode `_number` as `number`
+instance FromJSON GerritChange where
+  parseJSON =
+    genericParseJSON defaultOptions {fieldLabelModifier = recordToJson}
+    where
+      recordToJson "number" = "_number"
+      recordToJson n = n
