@@ -2,7 +2,7 @@
 
 -- | This module contains the internal gerrit REST client
 module Gerrit.Client
-  ( GerritClient,
+  ( GerritClient (baseUrl),
     withClient,
     gerritGet,
   )
@@ -11,6 +11,7 @@ where
 import Data.Aeson (FromJSON, decode, eitherDecode)
 import qualified Data.ByteString.Lazy as BSL
 import Data.Maybe (fromJust)
+import qualified Data.Text as T
 import Data.Text (Text, unpack)
 import Network.HTTP.Client
 import Network.HTTP.Client.TLS (tlsManagerSettings)
@@ -22,10 +23,12 @@ data GerritClient
       }
 
 withClient :: Text -> (GerritClient -> IO ()) -> IO ()
-withClient baseUrl callBack =
+withClient url callBack =
   do
     manager <- newManager tlsManagerSettings
     callBack (GerritClient {..})
+  where
+    baseUrl = T.dropWhileEnd (== '/') url <> "/"
 
 gerritGet :: (FromJSON a) => Text -> GerritClient -> IO a
 gerritGet path GerritClient {..} =
