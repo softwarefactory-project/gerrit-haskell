@@ -12,7 +12,7 @@ import Test.Tasty.HUnit
 main :: IO ()
 main = do
   dataFile <- BSL.readFile "./test/data/GerritChange.json"
-  withClient "http://example.com/r" $ \client ->
+  withClient "http://example.com/r" Nothing $ \client ->
     defaultMain (tests dataFile client)
 
 tests :: ByteString -> GerritClient -> TestTree
