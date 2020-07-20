@@ -9,9 +9,12 @@ module Gerrit
     GerritChange (..),
     GerritChangeStatus (..),
     changeUrl,
+    hasLabel,
+    isApproved,
   )
 where
 
+import qualified Data.Map as M
 import qualified Data.Text as T
 import Gerrit.Client
 import Gerrit.Data
@@ -30,4 +33,14 @@ queryChanges queries = gerritGet ("changes/?" <> queryString)
     queryString = T.intercalate "&" [changeString, countString, option]
     changeString = "q=" <> T.intercalate "+" (map queryText queries)
     countString = "n=" <> T.pack (show count)
-    option = "o=CURRENT_REVISION"
+    option = "o=CURRENT_REVISION&o=LABELS"
+
+hasLabel :: T.Text -> GerritLabelVote -> GerritChange -> Bool
+hasLabel label value change = case M.lookup label (labels change) of
+  Just (GerritLabel gerritLabel) -> case M.lookup value gerritLabel of
+    Just _ -> True
+    Nothing -> False
+  _ -> False
+
+isApproved :: GerritChange -> Bool
+isApproved = hasLabel "Code-Review" APPROVED

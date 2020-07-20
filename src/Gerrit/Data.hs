@@ -8,12 +8,16 @@ module Gerrit.Data
     GerritChangeStatus (..),
     GerritChange (..),
     GerritRevision (..),
+    GerritLabel (..),
+    GerritAccount (..),
+    GerritLabelVote (..),
     queryText,
   )
 where
 
-import Data.Aeson (FromJSON, Options (fieldLabelModifier), defaultOptions, genericParseJSON, parseJSON)
-import Data.Map as M
+import Data.Aeson
+import Data.Char (toLower)
+import qualified Data.Map as M
 import qualified Data.Text as T
 import Data.Text (Text)
 import GHC.Generics (Generic)
@@ -27,6 +31,16 @@ data GerritRevisionKind = REWORK | TRIVIAL_REBASE | MERGE_FIRST_PARENT_UPDATE | 
 
 data GerritChangeStatus = NEW | MERGED | ABANDONED | DRAFT
   deriving (Eq, Show, Generic, FromJSON)
+
+data GerritLabelVote = REJECTED | APPROVED | DISLIKED | RECOMMENDED
+  deriving (Eq, Show, Ord, Generic)
+
+-- We use a custom parseJSON to decode Label Vote as lowercase
+instance FromJSON GerritLabelVote where
+  parseJSON = genericParseJSON defaultOptions {fieldLabelModifier = map toLower}
+
+instance FromJSONKey GerritLabelVote where
+  fromJSONKey = genericFromJSONKey defaultJSONKeyOptions {keyModifier = map toLower}
 
 -- https://gerrit-review.googlesource.com/Documentation/user-search.html
 data GerritQuery
@@ -50,6 +64,20 @@ data GerritRevision
       }
   deriving (Show, Generic, FromJSON)
 
+newtype GerritAccount
+  = GerritAccount
+      { account_id :: Int
+      }
+  deriving (Show, Generic)
+
+-- We use a cusom parseJSON to decode `_account_id` as `account_id`
+instance FromJSON GerritAccount where
+  parseJSON = genericParseJSON aesonOptions
+
+newtype GerritLabel
+  = GerritLabel (M.Map GerritLabelVote GerritAccount)
+  deriving (Show, Generic, FromJSON)
+
 data GerritChange
   = GerritChange
       { id :: Text,
@@ -58,15 +86,19 @@ data GerritChange
         subject :: Text,
         status :: GerritChangeStatus,
         mergeable :: Maybe Bool,
-        revisions :: M.Map Text GerritRevision,
-        number :: Int
+        revisions :: M.Map Text (Maybe GerritRevision),
+        number :: Int,
+        labels :: M.Map Text GerritLabel
       }
   deriving (Show, Generic)
 
 -- We use a cusom parseJSON to decode `_number` as `number`
 instance FromJSON GerritChange where
-  parseJSON =
-    genericParseJSON defaultOptions {fieldLabelModifier = recordToJson}
-    where
-      recordToJson "number" = "_number"
-      recordToJson n = n
+  parseJSON = genericParseJSON aesonOptions
+
+aesonOptions :: Options
+aesonOptions = defaultOptions {fieldLabelModifier = recordToJson}
+  where
+    recordToJson "number" = "_number"
+    recordToJson "account_id" = "_account_id"
+    recordToJson n = n
