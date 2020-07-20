@@ -38,12 +38,17 @@ encodingTests dataFile client =
         $ assertEqual
           "Change url is correct"
           "http://example.com/r/18839"
-          testGetUrl
+          testGetUrl,
+      testCase "Test hasLabel works" $
+        assertBool "Label not found" testIsApproved
     ]
   where
     isChange :: Maybe GerritChange -> Bool
     isChange (Just _) = True
     isChange Nothing = False
+    testIsApproved = case decode dataFile of
+      Just change -> hasLabel "Code-Review" APPROVED change
+      Nothing -> False
     testGetUrl = case decode dataFile of
       Just change -> changeUrl client change
       Nothing -> "decode-failed"

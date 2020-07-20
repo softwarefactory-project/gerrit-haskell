@@ -17,6 +17,23 @@
   "owner": {
     "_account_id": 7
   },
+  "labels": {
+    "Code-Review": {
+      "approved": {
+        "_account_id": 8
+      }
+    },
+    "Verified": {
+      "recommended": {
+        "_account_id": 458
+      }
+     },
+    "Workflow": {
+      "disliked": {
+        "_account_id": 8
+      }
+    }
+  },
   "current_revision": "155658085799464e8d198edb7c8bd62de9ec9ae6",
   "revisions": {
     "155658085799464e8d198edb7c8bd62de9ec9ae6": {
