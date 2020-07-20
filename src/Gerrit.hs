@@ -8,6 +8,7 @@ module Gerrit
     GerritQuery (..),
     GerritChange (..),
     GerritChangeStatus (..),
+    ReviewResult (..),
     changeUrl,
     hasLabel,
     isApproved,

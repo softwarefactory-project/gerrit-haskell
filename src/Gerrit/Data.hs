@@ -13,12 +13,14 @@ module Gerrit.Data
     GerritLabelVote (..),
     GerritDetailedLabelVote (..),
     GerritDetailedLabel (..),
+    ReviewResult (..),
+    ReviewInput (..),
     queryText,
   )
 where
 
 import Data.Aeson
-import Data.Char (toLower)
+import Data.Char (isUpper, toLower, toUpper)
 import qualified Data.Map as M
 import qualified Data.Text as T
 import Data.Text (Text)
@@ -43,6 +45,46 @@ instance FromJSON GerritLabelVote where
 
 instance FromJSONKey GerritLabelVote where
   fromJSONKey = genericFromJSONKey defaultJSONKeyOptions {keyModifier = map toLower}
+
+-- | Modify record attribute to match json schema
+-- Remove the prefix and use snakecase
+customParseJSON :: String -> Options
+customParseJSON prefix = defaultOptions {fieldLabelModifier = recordToJson}
+  where
+    recordToJson = updateCase . drop (length prefix)
+    updateCase [] = []
+    updateCase (x : xs) = toLower x : updateCase' xs
+    updateCase' [] = []
+    updateCase' (x : xs)
+      | isUpper x = '_' : toLower x : updateCase' xs
+      | otherwise = x : updateCase' xs
+
+-- https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html
+data ReviewResult
+  = ReviewResult
+      { rrLabels :: Maybe (M.Map Text Int),
+        rrReady :: Maybe Int
+      }
+  deriving (Eq, Show, Ord, Generic)
+
+instance FromJSON ReviewResult where
+  parseJSON = genericParseJSON $ customParseJSON "rr"
+
+instance ToJSON ReviewResult where
+  toJSON = genericToJSON $ customParseJSON "rr"
+
+data ReviewInput
+  = ReviewInput
+      { riMessage :: Maybe Text,
+        riLabels :: Maybe (M.Map Text Int)
+      }
+  deriving (Eq, Show, Ord, Generic)
+
+instance FromJSON ReviewInput where
+  parseJSON = genericParseJSON $ customParseJSON "ri"
+
+instance ToJSON ReviewInput where
+  toJSON = genericToJSON $ (customParseJSON "ri") {omitNothingFields = True}
 
 -- https://gerrit-review.googlesource.com/Documentation/user-search.html
 data GerritQuery
