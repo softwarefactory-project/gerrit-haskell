@@ -82,7 +82,7 @@ newtype GerritLabel
 
 data GerritDetailedLabelVote
   = GerritDetailedLabelVote
-      { value :: Int,
+      { value :: Maybe Int,
         account_id :: Int
       }
   deriving (Show, Generic)

@@ -15,6 +15,7 @@ module Gerrit
 where
 
 import qualified Data.Map as M
+import Data.Maybe (fromMaybe)
 import qualified Data.Text as T
 import Gerrit.Client
 import Gerrit.Data
@@ -37,7 +38,7 @@ queryChanges queries = gerritGet ("changes/?" <> queryString)
 
 hasLabel :: T.Text -> Int -> GerritChange -> Bool
 hasLabel label labelValue change = case M.lookup label (labels change) of
-  Just gerritLabel -> (> 0) $ length $ filter (\vote -> value vote == labelValue) (Gerrit.Data.all gerritLabel)
+  Just gerritLabel -> (> 0) $ length $ filter (\vote -> fromMaybe 0 (value vote) == labelValue) (Gerrit.Data.all gerritLabel)
   _ -> False
 
 isApproved :: GerritChange -> Bool
