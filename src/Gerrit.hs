@@ -3,6 +3,7 @@ module Gerrit
   ( withClient,
     getVersion,
     queryChanges,
+    postReview,
     GerritClient,
     GerritVersion (..),
     GerritQuery (..),
@@ -17,6 +18,7 @@ where
 
 import qualified Data.Map as M
 import Data.Maybe (fromMaybe)
+import Data.Text (Text)
 import qualified Data.Text as T
 import Gerrit.Client
 import Gerrit.Data
@@ -36,6 +38,15 @@ queryChanges queries = gerritGet ("changes/?" <> queryString)
     changeString = "q=" <> T.intercalate "+" (map queryText queries)
     countString = "n=" <> T.pack (show count)
     option = "o=CURRENT_REVISION&o=DETAILED_LABELS"
+
+postReview :: GerritChange -> Text -> Text -> Int -> GerritClient -> IO ReviewResult
+postReview change message label value = gerritPost ("changes/" <> Gerrit.Data.id change) review
+  where
+    review =
+      ReviewInput
+        { riMessage = Just message,
+          riLabels = Just (M.fromList [(label, value)])
+        }
 
 hasLabel :: T.Text -> Int -> GerritChange -> Bool
 hasLabel label labelValue change = case M.lookup label (labels change) of
