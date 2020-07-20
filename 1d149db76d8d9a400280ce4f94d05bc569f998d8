@@ -1,0 +1,8 @@
+Code-Review+2: Nicolas HICHER <nhicher@redhat.com>
+Workflow+1: Nicolas HICHER <nhicher@redhat.com>
+Verified+2: Zuul CI <zuul@softwarefactory-project.io>
+Submitted-by: Zuul CI <zuul@softwarefactory-project.io>
+Submitted-at: Mon, 20 Jul 2020 20:06:50 +0000
+Reviewed-on: https://softwarefactory-project.io/r/18982
+Project: software-factory/gerrit-haskell
+Branch: refs/heads/master
