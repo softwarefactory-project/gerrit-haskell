@@ -47,7 +47,7 @@ encodingTests dataFile client =
     isChange (Just _) = True
     isChange Nothing = False
     testIsApproved = case decode dataFile of
-      Just change -> hasLabel "Code-Review" APPROVED change
+      Just change -> hasLabel "Code-Review" 1 change
       Nothing -> False
     testGetUrl = case decode dataFile of
       Just change -> changeUrl client change

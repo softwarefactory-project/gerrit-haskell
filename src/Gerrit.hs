@@ -33,14 +33,12 @@ queryChanges queries = gerritGet ("changes/?" <> queryString)
     queryString = T.intercalate "&" [changeString, countString, option]
     changeString = "q=" <> T.intercalate "+" (map queryText queries)
     countString = "n=" <> T.pack (show count)
-    option = "o=CURRENT_REVISION&o=LABELS"
+    option = "o=CURRENT_REVISION&o=DETAILED_LABELS"
 
-hasLabel :: T.Text -> GerritLabelVote -> GerritChange -> Bool
-hasLabel label value change = case M.lookup label (labels change) of
-  Just (GerritLabel gerritLabel) -> case M.lookup value gerritLabel of
-    Just _ -> True
-    Nothing -> False
+hasLabel :: T.Text -> Int -> GerritChange -> Bool
+hasLabel label labelValue change = case M.lookup label (labels change) of
+  Just gerritLabel -> (> 0) $ length $ filter (\vote -> value vote == labelValue) (Gerrit.Data.all gerritLabel)
   _ -> False
 
 isApproved :: GerritChange -> Bool
-isApproved = hasLabel "Code-Review" APPROVED
+isApproved = hasLabel "Code-Review" 2

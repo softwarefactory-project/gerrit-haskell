@@ -11,6 +11,8 @@ module Gerrit.Data
     GerritLabel (..),
     GerritAccount (..),
     GerritLabelVote (..),
+    GerritDetailedLabelVote (..),
+    GerritDetailedLabel (..),
     queryText,
   )
 where
@@ -66,7 +68,7 @@ data GerritRevision
 
 newtype GerritAccount
   = GerritAccount
-      { account_id :: Int
+      { unused_account_id :: Int
       }
   deriving (Show, Generic)
 
@@ -76,6 +78,24 @@ instance FromJSON GerritAccount where
 
 newtype GerritLabel
   = GerritLabel (M.Map GerritLabelVote GerritAccount)
+  deriving (Show, Generic, FromJSON)
+
+data GerritDetailedLabelVote
+  = GerritDetailedLabelVote
+      { value :: Int,
+        account_id :: Int
+      }
+  deriving (Show, Generic)
+
+-- We use a cusom parseJSON to decode record field properly
+instance FromJSON GerritDetailedLabelVote where
+  parseJSON = genericParseJSON aesonOptions
+
+data GerritDetailedLabel
+  = GerritDetailedLabel
+      { all :: [GerritDetailedLabelVote],
+        default_value :: Int
+      }
   deriving (Show, Generic, FromJSON)
 
 data GerritChange
@@ -88,7 +108,7 @@ data GerritChange
         mergeable :: Maybe Bool,
         revisions :: M.Map Text (Maybe GerritRevision),
         number :: Int,
-        labels :: M.Map Text GerritLabel
+        labels :: M.Map Text GerritDetailedLabel
       }
   deriving (Show, Generic)
 

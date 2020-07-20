@@ -19,19 +19,45 @@
   },
   "labels": {
     "Code-Review": {
-      "approved": {
-        "_account_id": 8
-      }
+      "all": [
+        {
+          "value": 1,
+          "permitted_voting_range": {
+            "min": -1,
+            "max": 1
+          },
+          "_account_id": 458
+        }
+      ],
+      "values": {
+        "-2": "Do not submit",
+        "-1": "I would prefer that you didn't submit this",
+        " 0": "No score",
+        "+1": "Looks good to me, but someone else must approve",
+        "+2": "Looks good to me (core reviewer)"
+      },
+      "default_value": 0
     },
     "Verified": {
-      "recommended": {
-        "_account_id": 458
-      }
-     },
-    "Workflow": {
-      "disliked": {
-        "_account_id": 8
-      }
+      "all": [
+        {
+          "value": 1,
+          "date": "2020-07-17 13:02:15.000000000",
+          "permitted_voting_range": {
+            "min": -2,
+            "max": 2
+          },
+          "_account_id": 458
+        }
+      ],
+      "values": {
+        "-2": "Fails",
+        "-1": "Doesn't seem to work",
+        " 0": "No score",
+        "+1": "Works for me",
+        "+2": "Verified"
+      },
+      "default_value": 0
     }
   },
   "current_revision": "155658085799464e8d198edb7c8bd62de9ec9ae6",
