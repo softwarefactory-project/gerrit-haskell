@@ -149,6 +149,7 @@ data GerritChange
         status :: GerritChangeStatus,
         mergeable :: Maybe Bool,
         revisions :: M.Map Text (Maybe GerritRevision),
+        current_revision :: Maybe Text,
         number :: Int,
         labels :: M.Map Text GerritDetailedLabel
       }
