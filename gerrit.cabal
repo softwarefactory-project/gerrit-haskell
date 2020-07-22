@@ -1,10 +1,12 @@
 cabal-version:       2.4
 name:                gerrit
 version:             0.0.0.0
-synopsis:            A gerrit client
+synopsis:            A gerrit client library
 description:
-    A gerrit client.
-    See README.md for more details.
+    Gerrit is a client library to interface with https://www.gerritcodereview.com/
+    .
+    Use this library to query and post to gerrit REST API.
+    .
 license:             Apache-2.0
 license-file:        LICENSE
 author:              Software Factory Dev
