@@ -3,7 +3,8 @@
 
 -- | This module contains the gerrit data type
 module Gerrit.Data
-  ( GerritVersion (..),
+  ( -- * Main data types
+    GerritVersion (..),
     GerritQuery (..),
     GerritChangeStatus (..),
     GerritChange (..),
@@ -15,6 +16,8 @@ module Gerrit.Data
     GerritDetailedLabel (..),
     ReviewResult (..),
     ReviewInput (..),
+
+    -- * Convenient functions
     queryText,
   )
 where
@@ -94,6 +97,7 @@ data GerritQuery
   | Project Text
   | ChangeId Text
 
+-- | Convert a GerritQuery object to the search terms
 queryText :: GerritQuery -> Text
 queryText (Status stat) = "status:" <> T.toLower (T.pack $ show stat)
 queryText (Owner owner) = "owner:" <> owner

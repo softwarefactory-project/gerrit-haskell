@@ -17,6 +17,7 @@ import Network.HTTP.Client
 import Network.HTTP.Client.TLS (tlsManagerSettings)
 import System.Environment (lookupEnv)
 
+-- | The GerritClient record, use 'withClient' to create
 data GerritClient
   = GerritClient
       { baseUrl :: Text,
@@ -24,7 +25,16 @@ data GerritClient
         auth :: Maybe (Text, Text)
       }
 
-withClient :: Text -> Maybe Text -> (GerritClient -> IO ()) -> IO ()
+-- | Create the 'GerritClient'
+withClient ::
+  -- | The gerrit api url
+  Text ->
+  -- | A username (password is read from GERRIT_PASSWORD environment)
+  Maybe Text ->
+  -- | The callback
+  (GerritClient -> IO ()) ->
+  -- | withClient performs the IO
+  IO ()
 withClient url username callBack =
   do
     manager <- newManager tlsManagerSettings
