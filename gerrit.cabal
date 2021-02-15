@@ -1,6 +1,6 @@
 cabal-version:       2.4
 name:                gerrit
-version:             0.0.0.0
+version:             0.0.1.0
 synopsis:            A gerrit client library
 description:
     Gerrit is a client library to interface with https://www.gerritcodereview.com/
@@ -18,13 +18,13 @@ extra-doc-files:     README.md
 tested-with:         GHC == 8.6.5
 
 common common-options
-  build-depends:       base
-                     , http-client
-                     , http-client-tls
-                     , aeson
-                     , bytestring
-                     , containers
-                     , text
+  build-depends:       base                   >= 4.11.0.0 && < 5
+                     , aeson                  >= 1.0.0.0  && < 1.6
+                     , bytestring             < 0.11
+                     , containers             >= 0.5.8.0  && < 0.7
+                     , http-client            >= 0.5.0    && < 0.8
+                     , http-client-tls        >= 0.2.0    && < 0.4
+                     , text                   >= 0.11.1.0 && < 1.3
 
   ghc-options:         -Wall
                        -Wcompat
@@ -69,8 +69,8 @@ test-suite gerrit-test
   hs-source-dirs:      test
   main-is:             Spec.hs
   build-depends:       gerrit
-                     , tasty
-                     , tasty-hunit
+                     , tasty                      >= 0.11.2   && < 1.5
+                     , tasty-hunit                >= 0.10     && < 0.11
   ghc-options:         -threaded
                        -rtsopts
                        -with-rtsopts=-N
