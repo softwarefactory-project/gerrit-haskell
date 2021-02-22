@@ -6,6 +6,7 @@ module Gerrit
 
     -- * Api
     getVersion,
+    getChange,
     queryChanges,
     postReview,
 
@@ -22,12 +23,14 @@ module Gerrit
   )
 where
 
+import Control.Exception (try)
 import qualified Data.Map as M
 import Data.Maybe (fromMaybe)
 import Data.Text (Text)
 import qualified Data.Text as T
 import Gerrit.Client
 import Gerrit.Data
+import Network.HTTP.Client (HttpException)
 
 -- | Return the url of a 'GerritChange'
 changeUrl :: GerritClient -> GerritChange -> T.Text
@@ -47,6 +50,13 @@ queryChanges queries = gerritGet ("changes/?" <> queryString)
     changeString = "q=" <> T.intercalate "+" (map queryText queries)
     countString = "n=" <> T.pack (show count)
     option = "o=CURRENT_REVISION&o=DETAILED_LABELS"
+
+getChange :: Int -> GerritClient -> IO (Maybe GerritChange)
+getChange number client = do
+  res <- try (gerritGet ("changes/" <> T.pack (show number) <> "?o=CURRENT_REVISION&o=DETAILED_LABELS") client) :: IO (Either HttpException GerritChange)
+  pure $ case res of
+    Right change -> Just change
+    Left _err -> Nothing
 
 -- | Post a review
 postReview ::
