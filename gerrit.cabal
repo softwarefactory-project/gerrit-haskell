@@ -52,6 +52,7 @@ library
   hs-source-dirs:      src
   exposed-modules:     Gerrit
                      , Gerrit.Data
+                     , Gerrit.Event
   other-modules:       Gerrit.Client
 
 executable gerrit

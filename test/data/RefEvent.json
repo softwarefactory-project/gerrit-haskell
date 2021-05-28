@@ -1,0 +1,15 @@
+{
+  "submitter": {
+    "name": "Tristan de Cacqueray",
+    "email": "tdecacqu@redhat.com",
+    "username": "TristanCacqueray"
+  },
+  "refUpdate": {
+    "oldRev": "0000000000000000000000000000000000000000",
+    "newRev": "aaf4e7f7437e010ba19ed259be6391a9a658dbaa",
+    "refName": "refs/changes/05/21905/1",
+    "project": "software-factory/gerrit-haskell"
+  },
+  "type": "ref-updated",
+  "eventCreatedOn": 1622228651
+}

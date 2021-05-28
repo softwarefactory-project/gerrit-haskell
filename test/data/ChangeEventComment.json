@@ -1,0 +1,70 @@
+{
+  "author": {
+    "name": "Zuul CI",
+    "email": "zuul@softwarefactory-project.io",
+    "username": "zuul"
+  },
+  "approvals": [
+    {
+      "type": "Verified",
+      "description": "Verified",
+      "value": "0"
+    },
+    {
+      "type": "Code-Review",
+      "description": "Code-Review",
+      "value": "0"
+    },
+    {
+      "type": "Workflow",
+      "description": "Workflow",
+      "value": "0"
+    }
+  ],
+  "comment": "Patch Set 3:\n\nStarting check jobs.",
+  "patchSet": {
+    "number": 3,
+    "revision": "938356461cd9fcb470e195fd1ef1907c06db730a",
+    "parents": [
+      "e61b385d95d4a8969bc09ab9163b550da8f715a3"
+    ],
+    "ref": "refs/changes/05/21905/3",
+    "uploader": {
+      "name": "Tristan de Cacqueray",
+      "email": "tdecacqu@redhat.com",
+      "username": "TristanCacqueray"
+    },
+    "createdOn": 1622229429,
+    "author": {
+      "name": "Tristan de Cacqueray",
+      "email": "tdecacqu@redhat.com",
+      "username": "TristanCacqueray"
+    },
+    "kind": "REWORK",
+    "sizeInsertions": 203,
+    "sizeDeletions": 1
+  },
+  "change": {
+    "project": "software-factory/gerrit-haskell",
+    "branch": "master",
+    "id": "I7c926701b9e2b57b934917672bb1397851119ae0",
+    "number": 21905,
+    "subject": "Add Gerrit.Event data type",
+    "owner": {
+      "name": "Tristan de Cacqueray",
+      "email": "tdecacqu@redhat.com",
+      "username": "TristanCacqueray"
+    },
+    "url": "https://softwarefactory-project.io/r/c/software-factory/gerrit-haskell/+/21905",
+    "commitMessage": "Add Gerrit.Event data type\n\nChange-Id: I7c926701b9e2b57b934917672bb1397851119ae0\n",
+    "createdOn": 1622228651,
+    "status": "NEW"
+  },
+  "project": "software-factory/gerrit-haskell",
+  "refName": "refs/heads/master",
+  "changeKey": {
+    "id": "I7c926701b9e2b57b934917672bb1397851119ae0"
+  },
+  "type": "comment-added",
+  "eventCreatedOn": 1622229444
+}
