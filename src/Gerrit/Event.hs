@@ -13,6 +13,8 @@ module Gerrit.Event
     RefEvent (..),
     CommentEventType (..),
     CommentEvent (..),
+    AbandonEventType (..),
+    AbandonEvent (..),
     Event (..),
   )
 where
@@ -129,6 +131,28 @@ data CommentEvent = CommentEvent
 instance FromJSON CommentEvent where
   parseJSON = genericParseJSON $ aesonOption "commentEvent"
 
+data AbandonEventType
+  = ChangeAbandoned
+  deriving (Show)
+
+instance FromJSON AbandonEventType where
+  parseJSON (String v) = case v of
+    "change-abandoned" -> pure ChangeAbandoned
+    _ -> mzero
+  parseJSON _ = mzero
+
+data AbandonEvent = AbandonEvent
+  { abandonEventProject :: Text,
+    abandonEventType :: AbandonEventType,
+    abandonEventAbandoner :: User,
+    abandonEventChange :: Change,
+    abandonEventPatchSet :: PatchSet
+  }
+  deriving (Show, Generic)
+
+instance FromJSON AbandonEvent where
+  parseJSON = genericParseJSON $ aesonOption "abandonEvent"
+
 data ProjectEvent = ProjectEvent
   { projectEventProjectName :: Text,
     projectEventHeadName :: Text,
@@ -165,6 +189,7 @@ data Event
   | EventComment CommentEvent
   | EventProject ProjectEvent
   | EventRef RefEvent
+  | EventAbandon AbandonEvent
   deriving (Show)
 
 instance FromJSON Event where
@@ -173,3 +198,4 @@ instance FromJSON Event where
       <|> EventComment <$> parseJSON v
       <|> EventProject <$> parseJSON v
       <|> EventRef <$> parseJSON v
+      <|> EventAbandon <$> parseJSON v

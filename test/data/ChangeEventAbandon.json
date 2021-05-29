@@ -1,0 +1,49 @@
+{
+  "abandoner": {
+    "name": "Tristan de Cacqueray",
+    "email": "tdecacqu@redhat.com",
+    "username": "TristanCacqueray"
+  },
+  "reason": "Duplicated changeid",
+  "patchSet": {
+    "number": 1,
+    "revision": "39ff07f7277ad4e85a94df1e130ec3e0dc55e9c7",
+    "parents": ["b20838415c86314d73ff5bb5532b1a9a43d38043"],
+    "ref": "refs/changes/16/21916/1",
+    "uploader": {
+      "name": "Tristan de Cacqueray",
+      "email": "tdecacqu@redhat.com",
+      "username": "TristanCacqueray"
+    },
+    "createdOn": 1622284534,
+    "author": {
+      "name": "Tristan de Cacqueray",
+      "email": "tdecacqu@redhat.com",
+      "username": "TristanCacqueray"
+    },
+    "kind": "REWORK",
+    "sizeInsertions": 158,
+    "sizeDeletions": 23
+  },
+  "change": {
+    "project": "software-factory/gerritbot-matrix",
+    "branch": "master",
+    "id": "Ie795336f3b1814a7e3d65a33c391fe3f64472fac",
+    "number": 21916,
+    "subject": "Group related event to emit a single message",
+    "owner": {
+      "name": "Tristan de Cacqueray",
+      "email": "tdecacqu@redhat.com",
+      "username": "TristanCacqueray"
+    },
+    "url": "https://softwarefactory-project.io/r/c/software-factory/gerritbot-matrix/+/21916",
+    "commitMessage": "Group related event to emit a single message\n\nFixes https://github.com/softwarefactory-project/gerritbot-matrix/issues/1\nChange-Id: If4b38b79a421b9e257bdf82077ab4c9801a3a447\n\nChange-Id: Ie795336f3b1814a7e3d65a33c391fe3f64472fac\n",
+    "createdOn": 1622284534,
+    "status": "ABANDONED"
+  },
+  "project": "software-factory/gerritbot-matrix",
+  "refName": "refs/heads/master",
+  "changeKey": { "id": "Ie795336f3b1814a7e3d65a33c391fe3f64472fac" },
+  "type": "change-abandoned",
+  "eventCreatedOn": 1622285180
+}

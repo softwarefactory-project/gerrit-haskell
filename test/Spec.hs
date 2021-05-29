@@ -20,6 +20,7 @@ main =
     files = [
       "ChangeEvent.json",
       "ChangeEventComment.json",
+      "ChangeEventAbandon.json",
       "RefEvent.json",
       "ProjectEvent.json",
       "GerritChange.json",
@@ -51,6 +52,9 @@ encodingTests dataFiles client =
         testCase "Test ChangeEventComment.json"
           $ assertBool "ChangeEvent is decoded"
           $ isCommentEvent (decode $ getRaw "ChangeEventComment.json"),
+        testCase "Test ChangeEventAbandon.json"
+          $ assertBool "ChangeEvent is decoded"
+          $ isAbandonedEvent (decode $ getRaw "ChangeEventAbandon.json"),
         testCase "Test ProjectEvent.json"
           $ assertBool "ProjectEvent is decoded"
           $ isProjectEvent (decode $ getRaw "ProjectEvent.json"),
@@ -91,6 +95,9 @@ encodingTests dataFiles client =
     isCommentEvent :: Maybe Event.Event -> Bool
     isCommentEvent (Just (Event.EventComment _)) = True
     isCommentEvent _ = False
+    isAbandonedEvent :: Maybe Event.Event -> Bool
+    isAbandonedEvent (Just (Event.EventAbandon _)) = True
+    isAbandonedEvent _ = False
     isProjectEvent (Just (Event.EventProject _)) = True
     isProjectEvent _ = False
     isRefEvent :: Maybe Event.Event -> Bool
