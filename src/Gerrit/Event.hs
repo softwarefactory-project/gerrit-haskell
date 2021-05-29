@@ -1,5 +1,6 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RecordWildCards #-}
 {-# OPTIONS_GHC -Wno-missing-export-lists #-}
 
 -- | Gerrit stream event data type
@@ -170,3 +171,21 @@ instance FromJSON Event where
       ProjectCreatedEvent -> EventProjectCreated <$> parseJSON o
       RefUpdatedEvent -> EventRefUpdated <$> parseJSON o
   parseJSON _ = mzero
+
+getChange :: Event -> Maybe Change
+getChange event = case event of
+  EventPatchsetCreated PatchsetCreated {..} -> Just patchsetCreatedChange
+  EventChangeMerged ChangeMerged {..} -> Just changeMergedChange
+  EventChangeAbandoned ChangeAbandoned {..} -> Just changeAbandonedChange
+  EventCommentAdded _ -> Nothing
+  EventProjectCreated _ -> Nothing
+  EventRefUpdated _ -> Nothing
+
+getUser :: Event -> Maybe User
+getUser event = case event of
+  EventPatchsetCreated PatchsetCreated {..} -> Just patchsetCreatedUploader
+  EventChangeMerged ChangeMerged {..} -> Just changeMergedSubmitter
+  EventChangeAbandoned ChangeAbandoned {..} -> Just changeAbandonedAbandoner
+  EventCommentAdded _ -> Nothing
+  EventProjectCreated _ -> Nothing
+  EventRefUpdated _ -> Nothing
