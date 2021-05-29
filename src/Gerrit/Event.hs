@@ -189,3 +189,13 @@ getUser event = case event of
   EventCommentAdded _ -> Nothing
   EventProjectCreated _ -> Nothing
   EventRefUpdated _ -> Nothing
+
+-- | Get the 'EventType' back from an 'Event'
+getEventType :: Event -> EventType
+getEventType event = case event of
+  EventPatchsetCreated _ -> PatchsetCreatedEvent
+  EventChangeMerged _ -> ChangeMergedEvent
+  EventChangeAbandoned _ -> ChangeAbandonedEvent
+  EventCommentAdded _ -> CommentAddedEvent
+  EventProjectCreated _ -> ProjectCreatedEvent
+  EventRefUpdated _ -> RefUpdatedEvent
