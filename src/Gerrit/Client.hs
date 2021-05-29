@@ -1,3 +1,6 @@
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RecordWildCards #-}
+
 -- | This module contains the internal gerrit REST client
 module Gerrit.Client
   ( GerritClient (baseUrl),
@@ -7,23 +10,22 @@ module Gerrit.Client
   )
 where
 
-import Data.Aeson (FromJSON, ToJSON, decode, eitherDecode, encode)
+import Data.Aeson (FromJSON, ToJSON, eitherDecode, encode)
 import qualified Data.ByteString.Lazy as BSL
-import Data.Maybe (fromJust, fromMaybe)
-import qualified Data.Text as T
+import Data.Maybe (fromMaybe)
 import Data.Text (Text, unpack)
+import qualified Data.Text as T
 import qualified Data.Text.Encoding as T
 import Network.HTTP.Client
 import Network.HTTP.Client.TLS (tlsManagerSettings)
 import System.Environment (lookupEnv)
 
 -- | The GerritClient record, use 'withClient' to create
-data GerritClient
-  = GerritClient
-      { baseUrl :: Text,
-        manager :: Manager,
-        auth :: Maybe (Text, Text)
-      }
+data GerritClient = GerritClient
+  { baseUrl :: Text,
+    manager :: Manager,
+    auth :: Maybe (Text, Text)
+  }
 
 -- | Create the 'GerritClient'
 withClient ::

@@ -1,5 +1,7 @@
 {-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 -- | This module contains the gerrit data type
 module Gerrit.Data
@@ -23,14 +25,15 @@ module Gerrit.Data
 where
 
 import Data.Aeson
-import Data.Char (isUpper, toLower, toUpper)
+import Data.Char (isUpper, toLower)
 import qualified Data.Map as M
-import qualified Data.Text as T
 import Data.Text (Text)
+import qualified Data.Text as T
 import GHC.Generics (Generic)
 
 newtype GerritVersion = GerritVersion Text
-  deriving (Show, Generic, FromJSON)
+  deriving (Show, Generic)
+  deriving anyclass (FromJSON)
 
 -- https://gerrit-review.googlesource.com/Documentation/json.html
 data GerritRevisionKind = REWORK | TRIVIAL_REBASE | MERGE_FIRST_PARENT_UPDATE | NO_CODE_CHANGE | NO_CHANGE
@@ -63,11 +66,10 @@ customParseJSON prefix = defaultOptions {fieldLabelModifier = recordToJson}
       | otherwise = x : updateCase' xs
 
 -- https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html
-data ReviewResult
-  = ReviewResult
-      { rrLabels :: Maybe (M.Map Text Int),
-        rrReady :: Maybe Int
-      }
+data ReviewResult = ReviewResult
+  { rrLabels :: Maybe (M.Map Text Int),
+    rrReady :: Maybe Int
+  }
   deriving (Eq, Show, Ord, Generic)
 
 instance FromJSON ReviewResult where
@@ -76,11 +78,10 @@ instance FromJSON ReviewResult where
 instance ToJSON ReviewResult where
   toJSON = genericToJSON $ customParseJSON "rr"
 
-data ReviewInput
-  = ReviewInput
-      { riMessage :: Maybe Text,
-        riLabels :: Maybe (M.Map Text Int)
-      }
+data ReviewInput = ReviewInput
+  { riMessage :: Maybe Text,
+    riLabels :: Maybe (M.Map Text Int)
+  }
   deriving (Eq, Show, Ord, Generic)
 
 instance FromJSON ReviewInput where
@@ -102,20 +103,18 @@ queryText :: GerritQuery -> Text
 queryText (Status stat) = "status:" <> T.toLower (T.pack $ show stat)
 queryText (Owner owner) = "owner:" <> owner
 queryText (CommitMessage message) = "message:" <> message
-queryText (Project project) = "project:" <> project
+queryText (Project project') = "project:" <> project'
 queryText (ChangeId changeId) = "change:" <> changeId
 
-data GerritRevision
-  = GerritRevision
-      { ref :: Text,
-        kind :: GerritRevisionKind
-      }
+data GerritRevision = GerritRevision
+  { ref :: Text,
+    kind :: GerritRevisionKind
+  }
   deriving (Show, Generic, FromJSON)
 
-newtype GerritAccount
-  = GerritAccount
-      { unused_account_id :: Int
-      }
+newtype GerritAccount = GerritAccount
+  { unused_account_id :: Int
+  }
   deriving (Show, Generic)
 
 -- We use a cusom parseJSON to decode `_account_id` as `account_id`
@@ -124,39 +123,37 @@ instance FromJSON GerritAccount where
 
 newtype GerritLabel
   = GerritLabel (M.Map GerritLabelVote GerritAccount)
-  deriving (Show, Generic, FromJSON)
+  deriving (Show, Generic)
+  deriving anyclass (FromJSON)
 
-data GerritDetailedLabelVote
-  = GerritDetailedLabelVote
-      { value :: Maybe Int,
-        account_id :: Int
-      }
+data GerritDetailedLabelVote = GerritDetailedLabelVote
+  { value :: Maybe Int,
+    account_id :: Int
+  }
   deriving (Show, Generic)
 
 -- We use a cusom parseJSON to decode record field properly
 instance FromJSON GerritDetailedLabelVote where
   parseJSON = genericParseJSON aesonOptions
 
-data GerritDetailedLabel
-  = GerritDetailedLabel
-      { all :: [GerritDetailedLabelVote],
-        default_value :: Int
-      }
+data GerritDetailedLabel = GerritDetailedLabel
+  { all :: [GerritDetailedLabelVote],
+    default_value :: Int
+  }
   deriving (Show, Generic, FromJSON)
 
-data GerritChange
-  = GerritChange
-      { id :: Text,
-        project :: Text,
-        branch :: Text,
-        subject :: Text,
-        status :: GerritChangeStatus,
-        mergeable :: Maybe Bool,
-        revisions :: M.Map Text (Maybe GerritRevision),
-        current_revision :: Maybe Text,
-        number :: Int,
-        labels :: M.Map Text GerritDetailedLabel
-      }
+data GerritChange = GerritChange
+  { id :: Text,
+    project :: Text,
+    branch :: Text,
+    subject :: Text,
+    status :: GerritChangeStatus,
+    mergeable :: Maybe Bool,
+    revisions :: M.Map Text (Maybe GerritRevision),
+    current_revision :: Maybe Text,
+    number :: Int,
+    labels :: M.Map Text GerritDetailedLabel
+  }
   deriving (Show, Generic)
 
 -- We use a cusom parseJSON to decode `_number` as `number`

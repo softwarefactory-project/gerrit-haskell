@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 -- | This module contains the gerrit client library
 module Gerrit
   ( -- * Client
@@ -41,19 +43,21 @@ getVersion :: GerritClient -> IO GerritVersion
 getVersion = gerritGet "config/server/version"
 
 -- | Search for changes
-queryChanges :: [GerritQuery] -> GerritClient -> IO [GerritChange]
-queryChanges queries = gerritGet ("changes/?" <> queryString)
+queryChanges :: Int -> [GerritQuery] -> GerritClient -> IO [GerritChange]
+queryChanges count queries = gerritGet ("changes/?" <> queryString)
   where
-    count :: Integer
-    count = 2
     queryString = T.intercalate "&" [changeString, countString, option]
     changeString = "q=" <> T.intercalate "+" (map queryText queries)
     countString = "n=" <> T.pack (show count)
     option = "o=CURRENT_REVISION&o=DETAILED_LABELS"
 
 getChange :: Int -> GerritClient -> IO (Maybe GerritChange)
-getChange number client = do
-  res <- try (gerritGet ("changes/" <> T.pack (show number) <> "?o=CURRENT_REVISION&o=DETAILED_LABELS") client) :: IO (Either HttpException GerritChange)
+getChange changeNumber client = do
+  res <-
+    try
+      ( gerritGet ("changes/" <> T.pack (show changeNumber) <> "?o=CURRENT_REVISION&o=DETAILED_LABELS") client
+      ) ::
+      IO (Either HttpException GerritChange)
   pure $ case res of
     Right change -> Just change
     Left _err -> Nothing
@@ -72,12 +76,7 @@ postReview ::
   GerritClient ->
   -- | Returns the ReviewResult
   IO ReviewResult
-postReview change message label value client =
-  do
-    res <- gerritPost urlPath review client
-    -- TODO: verify ReviewResult is correct
-    print res
-    pure res
+postReview change message label value' = gerritPost urlPath review
   where
     urlPath = "changes/" <> changeId <> "/revisions/" <> revHash <> "/review"
     changeId = Gerrit.Data.id change
@@ -85,11 +84,13 @@ postReview change message label value client =
     review =
       ReviewInput
         { riMessage = Just message,
-          riLabels = Just (M.fromList [(label, value)])
+          riLabels = Just (M.fromList [(label, value')])
         }
 
 -- | Check if a gerrit change as a label
 hasLabel :: T.Text -> Int -> GerritChange -> Bool
 hasLabel label labelValue change = case M.lookup label (labels change) of
-  Just gerritLabel -> (> 0) $ length $ filter (\vote -> fromMaybe 0 (value vote) == labelValue) (Gerrit.Data.all gerritLabel)
+  Just gerritLabel ->
+    (> 0) $
+      length $ filter (\vote -> fromMaybe 0 (value vote) == labelValue) (Gerrit.Data.all gerritLabel)
   _ -> False
