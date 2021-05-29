@@ -1,0 +1,46 @@
+{
+  "submitter": { "name": "Zuul", "username": "zuul" },
+  "newRev": "d7d5dc4a739aafcb0a3edfb758e15f878ad3292f",
+  "patchSet": {
+    "number": 7,
+    "revision": "02fbcbe3df09cf9603ea146f2c015a5c090685a6",
+    "parents": ["ef1c5ac06850ed9a994e5b1bfe6758d8b1e9a72b"],
+    "ref": "refs/changes/51/788551/7",
+    "uploader": {
+      "name": "Keane Lim",
+      "email": "keane.lim@windriver.com",
+      "username": "keanelim"
+    },
+    "createdOn": 1622139157,
+    "author": {
+      "name": "Keane Lim",
+      "email": "keane.lim@windriver.com",
+      "username": "keanelim"
+    },
+    "kind": "REWORK",
+    "sizeInsertions": 59,
+    "sizeDeletions": 6
+  },
+  "change": {
+    "project": "starlingx/docs",
+    "branch": "master",
+    "topic": "cgts-24325",
+    "id": "I20f80b3614128a2462e87461b9cb9898683fc8fc",
+    "number": 788551,
+    "subject": "Add KVM Virtual PTP Driver topic to OpenStack VNF section",
+    "owner": {
+      "name": "Keane Lim",
+      "email": "keane.lim@windriver.com",
+      "username": "keanelim"
+    },
+    "url": "https://review.opendev.org/c/starlingx/docs/+/788551",
+    "commitMessage": "Add KVM Virtual PTP Driver topic to OpenStack VNF section\n\nChange-Id: I20f80b3614128a2462e87461b9cb9898683fc8fc\nSigned-off-by: Keane Lim \u003ckeane.lim@windriver.com\u003e\n",
+    "createdOn": 1619627264,
+    "status": "MERGED"
+  },
+  "project": "starlingx/docs",
+  "refName": "refs/heads/master",
+  "changeKey": { "id": "I20f80b3614128a2462e87461b9cb9898683fc8fc" },
+  "type": "change-merged",
+  "eventCreatedOn": 1622233316
+}

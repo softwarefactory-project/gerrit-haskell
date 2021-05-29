@@ -1,27 +1,19 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# OPTIONS_GHC -Wno-missing-export-lists #-}
 
 -- | Gerrit stream event data type
-module Gerrit.Event
-  ( User (..),
-    Change (..),
-    PatchSet (..),
-    Ref (..),
-    ChangeEventType (..),
-    ChangeEvent (..),
-    RefEventType (..),
-    RefEvent (..),
-    CommentEventType (..),
-    CommentEvent (..),
-    AbandonEventType (..),
-    AbandonEvent (..),
-    Event (..),
-  )
-where
+module Gerrit.Event where
 
-import Control.Applicative ((<|>))
 import Control.Monad (mzero)
-import Data.Aeson (FromJSON (..), Options (fieldLabelModifier), Value (String), defaultOptions, genericParseJSON)
+import Data.Aeson
+  ( FromJSON (..),
+    Options (fieldLabelModifier),
+    Value (Object, String),
+    defaultOptions,
+    genericParseJSON,
+    (.:),
+  )
 import Data.Char (toLower)
 import Data.Text (Text)
 import qualified Data.Text as Text
@@ -33,38 +25,6 @@ aesonOption prefix = defaultOptions {fieldLabelModifier = recordToJson}
     recordToJson = updateCase . drop (Text.length prefix)
     updateCase [] = []
     updateCase (x : xs) = toLower x : xs
-
-data ChangeEventType
-  = PatchsetCreated
-  | ChangeMerged
-  deriving (Show)
-
-instance FromJSON ChangeEventType where
-  parseJSON (String v) = case v of
-    "patchset-created" -> pure PatchsetCreated
-    "change-merged" -> pure ChangeMerged
-    _ -> mzero
-  parseJSON _ = mzero
-
-data ProjectEventType
-  = ProjectCreated
-  deriving (Show)
-
-instance FromJSON ProjectEventType where
-  parseJSON (String v) = case v of
-    "project-created" -> pure ProjectCreated
-    _ -> mzero
-  parseJSON _ = mzero
-
-data RefEventType
-  = RefUpdated
-  deriving (Show)
-
-instance FromJSON RefEventType where
-  parseJSON (String v) = case v of
-    "ref-updated" -> pure RefUpdated
-    _ -> mzero
-  parseJSON _ = mzero
 
 data User = User
   { userName :: Maybe Text,
@@ -97,71 +57,58 @@ data Change = Change
 instance FromJSON Change where
   parseJSON = genericParseJSON $ aesonOption "change"
 
-data ChangeEvent = ChangeEvent
-  { changeEventProject :: Text,
-    changeEventType :: ChangeEventType,
-    changeEventUploader :: Maybe User,
-    changeEventChange :: Change,
-    changeEventPatchSet :: PatchSet
+data PatchsetCreated = PatchsetCreated
+  { patchsetCreatedProject :: Text,
+    patchsetCreatedUploader :: User,
+    patchsetCreatedChange :: Change,
+    patchsetCreatedPatchSet :: PatchSet
   }
   deriving (Show, Generic)
 
-instance FromJSON ChangeEvent where
-  parseJSON = genericParseJSON $ aesonOption "changeEvent"
+instance FromJSON PatchsetCreated where
+  parseJSON = genericParseJSON $ aesonOption "patchsetCreated"
 
-data CommentEventType
-  = CommentAdded
-  deriving (Show)
-
-instance FromJSON CommentEventType where
-  parseJSON (String v) = case v of
-    "comment-added" -> pure CommentAdded
-    _ -> mzero
-  parseJSON _ = mzero
-
-data CommentEvent = CommentEvent
-  { commentEventProject :: Text,
-    commentEventType :: CommentEventType,
-    commentEventAuthor :: User,
-    commentEventChange :: Change,
-    commentEventPatchSet :: PatchSet
+data ChangeMerged = ChangeMerged
+  { changeMergedProject :: Text,
+    changeMergedSubmitter :: User,
+    changeMergedChange :: Change,
+    changeMergedPatchSet :: PatchSet
   }
   deriving (Show, Generic)
 
-instance FromJSON CommentEvent where
-  parseJSON = genericParseJSON $ aesonOption "commentEvent"
+instance FromJSON ChangeMerged where
+  parseJSON = genericParseJSON $ aesonOption "changeMerged"
 
-data AbandonEventType
-  = ChangeAbandoned
-  deriving (Show)
-
-instance FromJSON AbandonEventType where
-  parseJSON (String v) = case v of
-    "change-abandoned" -> pure ChangeAbandoned
-    _ -> mzero
-  parseJSON _ = mzero
-
-data AbandonEvent = AbandonEvent
-  { abandonEventProject :: Text,
-    abandonEventType :: AbandonEventType,
-    abandonEventAbandoner :: User,
-    abandonEventChange :: Change,
-    abandonEventPatchSet :: PatchSet
+data CommentAdded = CommentAdded
+  { commentAddedProject :: Text,
+    commentAddedAuthor :: User,
+    commentAddedChange :: Change,
+    commentAddedPatchSet :: PatchSet
   }
   deriving (Show, Generic)
 
-instance FromJSON AbandonEvent where
-  parseJSON = genericParseJSON $ aesonOption "abandonEvent"
+instance FromJSON CommentAdded where
+  parseJSON = genericParseJSON $ aesonOption "commentAdded"
 
-data ProjectEvent = ProjectEvent
-  { projectEventProjectName :: Text,
-    projectEventHeadName :: Text,
-    projectEventType :: ProjectEventType
+data ChangeAbandoned = ChangeAbandoned
+  { changeAbandonedProject :: Text,
+    changeAbandonedAbandoner :: User,
+    changeAbandonedChange :: Change,
+    changeAbandonedPatchSet :: PatchSet
   }
   deriving (Show, Generic)
 
-instance FromJSON ProjectEvent where
-  parseJSON = genericParseJSON $ aesonOption "projectEvent"
+instance FromJSON ChangeAbandoned where
+  parseJSON = genericParseJSON $ aesonOption "changeAbandoned"
+
+data ProjectCreated = ProjectCreated
+  { projectCreatedProjectName :: Text,
+    projectCreatedHeadName :: Text
+  }
+  deriving (Show, Generic)
+
+instance FromJSON ProjectCreated where
+  parseJSON = genericParseJSON $ aesonOption "projectCreated"
 
 data Ref = Ref
   { refOldRev :: Text,
@@ -174,28 +121,52 @@ data Ref = Ref
 instance FromJSON Ref where
   parseJSON = genericParseJSON $ aesonOption "ref"
 
-data RefEvent = RefEvent
-  { refEventSubmitter :: Maybe User,
-    refEventRefUpdate :: Ref,
-    refEventType :: RefEventType
+data RefUpdated = RefUpdated
+  { refUpdatedSubmitter :: Maybe User,
+    refUpdatedRefUpdate :: Ref
   }
   deriving (Show, Generic)
 
-instance FromJSON RefEvent where
-  parseJSON = genericParseJSON $ aesonOption "refEvent"
+instance FromJSON RefUpdated where
+  parseJSON = genericParseJSON $ aesonOption "refUpdated"
+
+data EventType
+  = PatchsetCreatedEvent
+  | ChangeMergedEvent
+  | ChangeAbandonedEvent
+  | CommentAddedEvent
+  | ProjectCreatedEvent
+  | RefUpdatedEvent
+  deriving (Show, Eq)
+
+instance FromJSON EventType where
+  parseJSON (String v) = case v of
+    "patchset-created" -> pure PatchsetCreatedEvent
+    "change-merged" -> pure ChangeMergedEvent
+    "change-abandoned" -> pure ChangeAbandonedEvent
+    "comment-added" -> pure CommentAddedEvent
+    "project-created" -> pure ProjectCreatedEvent
+    "ref-updated" -> pure RefUpdatedEvent
+    _ -> mzero
+  parseJSON _ = mzero
 
 data Event
-  = EventChange ChangeEvent
-  | EventComment CommentEvent
-  | EventProject ProjectEvent
-  | EventRef RefEvent
-  | EventAbandon AbandonEvent
+  = EventPatchsetCreated PatchsetCreated
+  | EventChangeMerged ChangeMerged
+  | EventChangeAbandoned ChangeAbandoned
+  | EventCommentAdded CommentAdded
+  | EventProjectCreated ProjectCreated
+  | EventRefUpdated RefUpdated
   deriving (Show)
 
 instance FromJSON Event where
-  parseJSON v =
-    EventChange <$> parseJSON v
-      <|> EventComment <$> parseJSON v
-      <|> EventProject <$> parseJSON v
-      <|> EventRef <$> parseJSON v
-      <|> EventAbandon <$> parseJSON v
+  parseJSON o@(Object v) = do
+    eType <- v .: "type"
+    case eType of
+      PatchsetCreatedEvent -> EventPatchsetCreated <$> parseJSON o
+      ChangeMergedEvent -> EventChangeMerged <$> parseJSON o
+      ChangeAbandonedEvent -> EventChangeAbandoned <$> parseJSON o
+      CommentAddedEvent -> EventCommentAdded <$> parseJSON o
+      ProjectCreatedEvent -> EventProjectCreated <$> parseJSON o
+      RefUpdatedEvent -> EventRefUpdated <$> parseJSON o
+  parseJSON _ = mzero

@@ -43,6 +43,9 @@ encodingTests dataFiles client =
         testCase "Test ChangeEvent.json" $
           assertBool "ChangeEvent is decoded" $
             isChangeEvent $ decode $ getRaw "ChangeEvent.json",
+        testCase "Test ChangeEventMerged.json" $
+          assertBool "ChangeEventMerged is decoded" $
+            isChangeMergedEvent $ decode $ getRaw "ChangeEventMerged.json",
         testCase "Test ChangeEventComment.json" $
           assertBool "ChangeEvent is decoded" $
             isCommentEvent $ decode $ getRaw "ChangeEventComment.json",
@@ -78,24 +81,24 @@ encodingTests dataFiles client =
     isReviewResult = \case
       Just _ -> True
       Nothing -> False
-    isChangeEvent :: Maybe Event.Event -> Bool
+    isChangeMergedEvent = \case
+      Just (Event.EventChangeMerged _) -> True
+      _ -> False
     isChangeEvent = \case
-      Just (Event.EventChange _) -> True
+      Just (Event.EventPatchsetCreated _) -> True
       _ -> False
-    isCommentEvent :: Maybe Event.Event -> Bool
     isCommentEvent = \case
-      Just (Event.EventComment _) -> True
+      Just (Event.EventCommentAdded _) -> True
       _ -> False
-    isAbandonedEvent :: Maybe Event.Event -> Bool
     isAbandonedEvent = \case
-      Just (Event.EventAbandon _) -> True
+      Just (Event.EventChangeAbandoned _) -> True
       _ -> False
     isProjectEvent = \case
-      Just (Event.EventProject _) -> True
+      Just (Event.EventProjectCreated _) -> True
       _ -> False
     isRefEvent :: Maybe Event.Event -> Bool
     isRefEvent = \case
-      Just (Event.EventRef _) -> True
+      Just (Event.EventRefUpdated _) -> True
       _ -> False
     isChange :: Maybe GerritChange -> Bool
     isChange = \case
