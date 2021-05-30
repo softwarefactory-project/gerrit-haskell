@@ -40,24 +40,24 @@ encodingTests dataFiles client =
       [ testCase "Test GerritChange.json" $
           assertBool "GerritChange is decoded" $
             isChange $ decode $ getRaw "GerritChange.json",
-        testCase "Test ChangeEvent.json" $
-          assertBool "ChangeEvent is decoded" $
-            isChangeEvent $ decode $ getRaw "ChangeEvent.json",
-        testCase "Test ChangeEventMerged.json" $
-          assertBool "ChangeEventMerged is decoded" $
-            isChangeMergedEvent $ decode $ getRaw "ChangeEventMerged.json",
-        testCase "Test ChangeEventComment.json" $
-          assertBool "ChangeEvent is decoded" $
-            isCommentEvent $ decode $ getRaw "ChangeEventComment.json",
-        testCase "Test ChangeEventAbandon.json" $
-          assertBool "ChangeEvent is decoded" $
-            isAbandonedEvent $ decode $ getRaw "ChangeEventAbandon.json",
-        testCase "Test ProjectEvent.json" $
-          assertBool "ProjectEvent is decoded" $
-            isProjectEvent $ decode $ getRaw "ProjectEvent.json",
-        testCase "Test RefEvent.json" $
-          assertBool "RefEvent is decoded" $
-            isRefEvent $ decode $ getRaw "RefEvent.json",
+        testCase "Test EventPatchsetCreated.json" $
+          assertBool "EventPatchsetCreated is decoded" $
+            isEventPatchsetCreated $ decode $ getRaw "EventPatchsetCreated.json",
+        testCase "Test EventChangeMerged.json" $
+          assertBool "EventChangeMerged is decoded" $
+            isChangeMergedEvent $ decode $ getRaw "EventChangeMerged.json",
+        testCase "Test EventCommentAdded.json" $
+          assertBool "EventCommentAdded is decoded" $
+            isCommentEvent $ decode $ getRaw "EventCommentAdded.json",
+        testCase "Test EventChangeAbandoned.json" $
+          assertBool "EventChangeAbandoned is decoded" $
+            isAbandonedEvent $ decode $ getRaw "EventChangeAbandoned.json",
+        testCase "Test EventProjectCreated.json" $
+          assertBool "EventProjectCreated is decoded" $
+            isEventProjectCreated $ decode $ getRaw "EventProjectCreated.json",
+        testCase "Test EventRefUpdated.json" $
+          assertBool "EventRefUpdated is decoded" $
+            isEventRefUpdated $ decode $ getRaw "EventRefUpdated.json",
         testCase "Test ReviewResult.json" $
           assertBool "ReviewResult is decoded" $
             isReviewResult $ decode $ getRaw "ReviewResult.json",
@@ -84,7 +84,7 @@ encodingTests dataFiles client =
     isChangeMergedEvent = \case
       Just (Event.EventChangeMerged _) -> True
       _ -> False
-    isChangeEvent = \case
+    isEventPatchsetCreated = \case
       Just (Event.EventPatchsetCreated _) -> True
       _ -> False
     isCommentEvent = \case
@@ -93,11 +93,10 @@ encodingTests dataFiles client =
     isAbandonedEvent = \case
       Just (Event.EventChangeAbandoned _) -> True
       _ -> False
-    isProjectEvent = \case
+    isEventProjectCreated = \case
       Just (Event.EventProjectCreated _) -> True
       _ -> False
-    isRefEvent :: Maybe Event.Event -> Bool
-    isRefEvent = \case
+    isEventRefUpdated = \case
       Just (Event.EventRefUpdated _) -> True
       _ -> False
     isChange :: Maybe GerritChange -> Bool

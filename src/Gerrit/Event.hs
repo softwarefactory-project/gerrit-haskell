@@ -1,10 +1,44 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
-{-# OPTIONS_GHC -Wno-missing-export-lists #-}
 
 -- | Gerrit stream event data type
-module Gerrit.Event where
+module Gerrit.Event
+  ( -- * Main event data types
+    EventType (..),
+    Event (..),
+
+    -- * Common data types
+    User (..),
+    PatchSet (..),
+    Change (..),
+    Ref (..),
+
+    -- * Individual event data types
+    AssigneeChanged (..),
+    ChangeAbandoned (..),
+    ChangeDeleted (..),
+    ChangeMerged (..),
+    ChangeRestored (..),
+    CommentAdded (..),
+    HashtagsChanged (..),
+    ProjectCreated (..),
+    PatchsetCreated (..),
+    RefUpdated (..),
+    ReviewerAdded (..),
+    ReviewerDeleted (..),
+    TopicChanged (..),
+    WorkInProgressStateChanged (..),
+    PrivateStateChanged (..),
+    VoteDeleted (..),
+
+    -- * Convenient functions
+    getChange,
+    getUser,
+    getEventType,
+    eventName,
+  )
+where
 
 import Control.Monad (mzero)
 import Data.Aeson
@@ -300,7 +334,7 @@ data Event
   | EventWorkInProgressStateChanged WorkInProgressStateChanged
   | EventPrivateStateChanged PrivateStateChanged
   | EventVoteDeleted VoteDeleted
-  deriving (Show)
+  deriving (Show, Eq)
 
 instance FromJSON Event where
   parseJSON o@(Object v) = do
@@ -328,6 +362,8 @@ instance FromJSON Event where
 -------------------------------------------------------------------------------
 -- Utilities function
 -------------------------------------------------------------------------------
+
+-- | Get the associated change
 getChange :: Event -> Maybe Change
 getChange event = case event of
   EventAssigneeChanged AssigneeChanged {..} -> Just assigneeChangedChange
@@ -348,6 +384,7 @@ getChange event = case event of
   EventPrivateStateChanged PrivateStateChanged {..} -> Just privateStateChangedChange
   EventVoteDeleted VoteDeleted {..} -> Just voteDeletedChange
 
+-- | Get the associated author
 getUser :: Event -> Maybe User
 getUser event = case event of
   EventAssigneeChanged AssigneeChanged {..} -> Just assigneeChangedChanger
@@ -389,6 +426,7 @@ getEventType event = case event of
   EventPrivateStateChanged _ -> PrivateStateChangedEvent
   EventVoteDeleted _ -> VoteDeletedEvent
 
+-- | Get the text representation suitable for event subscription.
 eventName :: EventType -> Text
 eventName eventType = case eventType of
   AssigneeChangedEvent -> "assignee-changed"

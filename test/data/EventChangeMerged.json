@@ -1,0 +1,47 @@
+{
+  "submitter": { "name": "Zuul", "username": "zuul" },
+  "newRev": "d7d5dc4a739aafcb0a3edfb758e15f878ad3292f",
+  "patchSet": {
+    "number": 2,
+    "revision": "4cc63b82c3c0114d29b50e2593af21504aa10f57",
+    "parents": ["e61b385d95d4a8969bc09ab9163b550da8f715a3"],
+    "ref": "refs/changes/05/21905/2",
+    "uploader": {
+      "name": "Tristan de Cacqueray",
+      "email": "tdecacqu@redhat.com",
+      "username": "TristanCacqueray"
+    },
+    "createdOn": 1622229383,
+    "author": {
+      "name": "Tristan de Cacqueray",
+      "email": "tdecacqu@redhat.com",
+      "username": "TristanCacqueray"
+    },
+    "kind": "REWORK",
+    "sizeInsertions": 201,
+    "sizeDeletions": 1
+  },
+  "change": {
+    "project": "software-factory/gerrit-haskell",
+    "branch": "master",
+    "id": "I7c926701b9e2b57b934917672bb1397851119ae0",
+    "number": 21905,
+    "subject": "Add Gerrit.Event data type",
+    "owner": {
+      "name": "Tristan de Cacqueray",
+      "email": "tdecacqu@redhat.com",
+      "username": "TristanCacqueray"
+    },
+    "url": "https://softwarefactory-project.io/r/c/software-factory/gerrit-haskell/+/21905",
+    "commitMessage": "Add Gerrit.Event data type\n\nChange-Id: I7c926701b9e2b57b934917672bb1397851119ae0\n",
+    "createdOn": 1622228651,
+    "status": "MERGED"
+  },
+  "project": "software-factory/gerrit-haskell",
+  "refName": "refs/heads/master",
+  "changeKey": {
+    "id": "I7c926701b9e2b57b934917672bb1397851119ae0"
+  },
+  "type": "change-merged",
+  "eventCreatedOn": 1622233316
+}

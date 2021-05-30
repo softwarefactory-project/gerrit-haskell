@@ -19,7 +19,7 @@ build-type:          Simple
 extra-doc-files:     CHANGELOG.md
                      README.md
 extra-source-files:  test/data/*.json
-tested-with:         GHC == 8.10.3
+tested-with:         GHC == 8.10.4
 
 source-repository head
   type:                git
