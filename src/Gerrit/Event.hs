@@ -34,7 +34,9 @@ module Gerrit.Event
 
     -- * Convenient functions
     getChange,
+    getPatchSet,
     getUser,
+    getCreatedOn,
     getEventType,
     eventName,
   )
@@ -53,6 +55,7 @@ import Data.Char (toLower)
 import Data.Text (Text)
 import qualified Data.Text as Text
 import GHC.Generics (Generic)
+import GHC.Int (Int64)
 
 aesonOption :: Text -> Options
 aesonOption prefix = defaultOptions {fieldLabelModifier = recordToJson}
@@ -113,7 +116,8 @@ instance FromJSON Ref where
 -------------------------------------------------------------------------------
 data AssigneeChanged = AssigneeChanged
   { assigneeChangedChange :: Change,
-    assigneeChangedChanger :: User
+    assigneeChangedChanger :: User,
+    assigneeChangedEventCreatedOn :: Int64
   }
   deriving (Show, Eq, Generic)
 
@@ -121,7 +125,8 @@ data ChangeAbandoned = ChangeAbandoned
   { changeAbandonedProject :: Text,
     changeAbandonedAbandoner :: User,
     changeAbandonedChange :: Change,
-    changeAbandonedPatchSet :: PatchSet
+    changeAbandonedPatchSet :: PatchSet,
+    changeAbandonedEventCreatedOn :: Int64
   }
   deriving (Show, Eq, Generic)
 
@@ -135,7 +140,8 @@ data ChangeMerged = ChangeMerged
   { changeMergedProject :: Text,
     changeMergedSubmitter :: User,
     changeMergedChange :: Change,
-    changeMergedPatchSet :: PatchSet
+    changeMergedPatchSet :: PatchSet,
+    changeMergedEventCreatedOn :: Int64
   }
   deriving (Show, Eq, Generic)
 
@@ -143,74 +149,85 @@ data ChangeRestored = ChangeRestored
   { changeRestoredChange :: Change,
     changeRestoredPatchSet :: PatchSet,
     changeRestoredRestorer :: User,
-    changeRestoredReason :: Text
+    changeRestoredReason :: Text,
+    changeRestoredEventCreatedOn :: Int64
   }
   deriving (Show, Eq, Generic)
 
 data CommentAdded = CommentAdded
   { commentAddedChange :: Change,
     commentAddedPatchSet :: PatchSet,
-    commentAddedAuthor :: User
+    commentAddedAuthor :: User,
+    commentAddedEventCreatedOn :: Int64
   }
   deriving (Show, Eq, Generic)
 
 data HashtagsChanged = HashtagsChanged
   { hashtagsChangedChange :: Change,
-    hashtagsChangedEditor :: User
+    hashtagsChangedEditor :: User,
+    hashtagsChangedEventCreatedOn :: Int64
   }
   deriving (Show, Eq, Generic)
 
 data ProjectCreated = ProjectCreated
   { projectCreatedProjectName :: Text,
-    projectCreatedHeadName :: Text
+    projectCreatedHeadName :: Text,
+    projectCreatedEventCreatedOn :: Int64
   }
   deriving (Show, Eq, Generic)
 
 data PatchsetCreated = PatchsetCreated
   { patchsetCreatedUploader :: User,
     patchsetCreatedChange :: Change,
-    patchsetCreatedPatchSet :: PatchSet
+    patchsetCreatedPatchSet :: PatchSet,
+    patchsetCreatedEventCreatedOn :: Int64
   }
   deriving (Show, Eq, Generic)
 
 data RefUpdated = RefUpdated
   { refUpdatedSubmitter :: User,
-    refUpdatedRefUpdate :: Ref
+    refUpdatedRefUpdate :: Ref,
+    refUpdatedEventCreatedOn :: Int64
   }
   deriving (Show, Eq, Generic)
 
 data ReviewerAdded = ReviewerAdded
   { reviewerAddedChange :: Change,
     reviewerAddedPatchSet :: PatchSet,
-    reviewerAddedAdder :: User
+    reviewerAddedAdder :: User,
+    reviewerAddedEventCreatedOn :: Int64
   }
   deriving (Show, Eq, Generic)
 
 data ReviewerDeleted = ReviewerDeleted
   { reviewerDeletedChange :: Change,
     reviewerDeletedPatchSet :: PatchSet,
-    reviewerDeletedRemover :: User
+    reviewerDeletedRemover :: User,
+    reviewerDeletedEventCreatedOn :: Int64
   }
   deriving (Show, Eq, Generic)
 
 data TopicChanged = TopicChanged
   { topicChangedChange :: Change,
     topicChangedChanger :: User,
-    topicChangedOldTopic :: Text
+    topicChangedOldTopic :: Text,
+    topicChangedEventCreatedOn :: Int64
   }
   deriving (Show, Eq, Generic)
 
 data WorkInProgressStateChanged = WorkInProgressStateChanged
   { workInProgressStateChangedChange :: Change,
     workInProgressStateChangedPatchSet :: PatchSet,
-    workInProgressStateChangedChanger :: User
+    workInProgressStateChangedChanger :: User,
+    workInProgressStateChangedEventCreatedOn :: Int64
   }
   deriving (Show, Eq, Generic)
 
 data PrivateStateChanged = PrivateStateChanged
   { privateStateChangedChange :: Change,
     privateStateChangedPatchSet :: PatchSet,
-    privateStateChangedChanger :: User
+    privateStateChangedChanger :: User,
+    privateStateChangedChangedEventCreatedOn :: Int64
   }
   deriving (Show, Eq, Generic)
 
@@ -384,6 +401,27 @@ getChange event = case event of
   EventPrivateStateChanged PrivateStateChanged {..} -> Just privateStateChangedChange
   EventVoteDeleted VoteDeleted {..} -> Just voteDeletedChange
 
+-- | Get the associated patchset
+getPatchSet :: Event -> Maybe PatchSet
+getPatchSet event = case event of
+  EventAssigneeChanged _ -> Nothing
+  EventChangeAbandoned ChangeAbandoned {..} -> Just changeAbandonedPatchSet
+  EventChangeDeleted _ -> Nothing
+  EventChangeMerged ChangeMerged {..} -> Just changeMergedPatchSet
+  EventChangeRestored ChangeRestored {..} -> Just changeRestoredPatchSet
+  EventCommentAdded CommentAdded {..} -> Just commentAddedPatchSet
+  EventDroppedOutput -> Nothing
+  EventHashtagsChanged _ -> Nothing
+  EventProjectCreated _ -> Nothing
+  EventPatchsetCreated PatchsetCreated {..} -> Just patchsetCreatedPatchSet
+  EventRefUpdated _ -> Nothing
+  EventReviewerAdded ReviewerAdded {..} -> Just reviewerAddedPatchSet
+  EventReviewerDeleted ReviewerDeleted {..} -> Just reviewerDeletedPatchSet
+  EventTopicChanged _ -> Nothing
+  EventWorkInProgressStateChanged WorkInProgressStateChanged {..} -> Just workInProgressStateChangedPatchSet
+  EventPrivateStateChanged PrivateStateChanged {..} -> Just privateStateChangedPatchSet
+  EventVoteDeleted VoteDeleted {..} -> Just voteDeletedPatchSet
+
 -- | Get the associated author
 getUser :: Event -> Maybe User
 getUser event = case event of
@@ -404,6 +442,27 @@ getUser event = case event of
   EventWorkInProgressStateChanged WorkInProgressStateChanged {..} -> Just workInProgressStateChangedChanger
   EventPrivateStateChanged PrivateStateChanged {..} -> Just privateStateChangedChanger
   EventVoteDeleted VoteDeleted {..} -> Just voteDeletedRemover
+
+-- | Get the creation timestamp
+getCreatedOn :: Event -> Maybe Int64
+getCreatedOn event = case event of
+  EventAssigneeChanged AssigneeChanged {..} -> Just assigneeChangedEventCreatedOn
+  EventChangeAbandoned ChangeAbandoned {..} -> Just changeAbandonedEventCreatedOn
+  EventChangeDeleted _ -> Nothing
+  EventChangeMerged ChangeMerged {..} -> Just changeMergedEventCreatedOn
+  EventChangeRestored ChangeRestored {..} -> Just changeRestoredEventCreatedOn
+  EventCommentAdded CommentAdded {..} -> Just commentAddedEventCreatedOn
+  EventDroppedOutput -> Nothing
+  EventHashtagsChanged HashtagsChanged {..} -> Just hashtagsChangedEventCreatedOn
+  EventProjectCreated ProjectCreated {..} -> Just projectCreatedEventCreatedOn
+  EventPatchsetCreated PatchsetCreated {..} -> Just patchsetCreatedEventCreatedOn
+  EventRefUpdated RefUpdated {..} -> Just refUpdatedEventCreatedOn
+  EventReviewerAdded ReviewerAdded {..} -> Just reviewerAddedEventCreatedOn
+  EventReviewerDeleted ReviewerDeleted {..} -> Just reviewerDeletedEventCreatedOn
+  EventTopicChanged TopicChanged {..} -> Just topicChangedEventCreatedOn
+  EventWorkInProgressStateChanged WorkInProgressStateChanged {..} -> Just workInProgressStateChangedEventCreatedOn
+  EventPrivateStateChanged PrivateStateChanged {..} -> Just privateStateChangedChangedEventCreatedOn
+  EventVoteDeleted _ -> Nothing
 
 -- | Get the 'EventType' back from an 'Event'
 getEventType :: Event -> EventType
