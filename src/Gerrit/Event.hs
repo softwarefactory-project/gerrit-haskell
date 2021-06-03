@@ -126,6 +126,7 @@ data ChangeAbandoned = ChangeAbandoned
     changeAbandonedAbandoner :: User,
     changeAbandonedChange :: Change,
     changeAbandonedPatchSet :: PatchSet,
+    changeAbandonedReason :: Maybe Text,
     changeAbandonedEventCreatedOn :: Int64
   }
   deriving (Show, Eq, Generic)
@@ -149,7 +150,7 @@ data ChangeRestored = ChangeRestored
   { changeRestoredChange :: Change,
     changeRestoredPatchSet :: PatchSet,
     changeRestoredRestorer :: User,
-    changeRestoredReason :: Text,
+    changeRestoredReason :: Maybe Text,
     changeRestoredEventCreatedOn :: Int64
   }
   deriving (Show, Eq, Generic)
