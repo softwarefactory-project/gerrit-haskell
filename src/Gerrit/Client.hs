@@ -17,7 +17,7 @@ import Data.Text (Text, unpack)
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as T
 import Network.HTTP.Client
-import Network.HTTP.Client.TLS (tlsManagerSettings)
+import Network.HTTP.Client.OpenSSL (newOpenSSLManager, withOpenSSL)
 import System.Environment (lookupEnv)
 
 -- | The GerritClient record, use 'withClient' to create
@@ -37,15 +37,14 @@ withClient ::
   (GerritClient -> IO a) ->
   -- | withClient performs the IO
   IO a
-withClient url username callBack =
-  do
-    manager <- newManager tlsManagerSettings
-    auth <- case username of
-      Just user -> do
-        pass <- lookupEnv "GERRIT_PASSWORD"
-        pure $ Just (user, T.pack $ fromMaybe "" pass)
-      _ -> pure Nothing
-    callBack (GerritClient {..})
+withClient url username callBack = withOpenSSL $ do
+  manager <- newOpenSSLManager
+  auth <- case username of
+    Just user -> do
+      pass <- lookupEnv "GERRIT_PASSWORD"
+      pure $ Just (user, T.pack $ fromMaybe "" pass)
+    _ -> pure Nothing
+  callBack (GerritClient {..})
   where
     baseUrl = T.dropWhileEnd (== '/') url <> "/"
 
