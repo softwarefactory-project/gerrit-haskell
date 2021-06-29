@@ -12,18 +12,25 @@ module Gerrit.Data
     GerritChange (..),
     GerritRevision (..),
     GerritLabel (..),
-    GerritAccount (..),
+    GerritReviewAccount (..),
     GerritLabelVote (..),
     GerritDetailedLabelVote (..),
     GerritDetailedLabel (..),
     ReviewResult (..),
     ReviewInput (..),
 
+    -- * User data types
+    GerritAccountQuery (..),
+    GerritAccountId (..),
+    GerritAccount (..),
+    userQueryText,
+
     -- * Convenient functions
     queryText,
   )
 where
 
+import Control.Monad (mzero)
 import Data.Aeson
 import Data.Char (isUpper, toLower)
 import qualified Data.Map as M
@@ -106,23 +113,72 @@ queryText (CommitMessage message) = "message:" <> message
 queryText (Project project') = "project:" <> project'
 queryText (ChangeId changeId) = "change:" <> changeId
 
+-- https://gerrit-review.googlesource.com/Documentation/user-search-accounts.html#_search_operators
+data GerritAccountQuery
+  = CanSee Text
+  | Email Text
+  | Name Text
+  | Username Text
+  | IsActive
+  | IsInactive
+
+userQueryText :: GerritAccountQuery -> Text
+userQueryText guq = case guq of
+  CanSee change -> "cansee:" <> change
+  Email email -> "email:" <> email
+  Name name -> "name:" <> escapeChar name
+  Username username -> "username:" <> username
+  IsActive -> "is:active"
+  IsInactive -> "is:inactive"
+  where
+    escapeChar = T.replace "'" " "
+
+data GerritAccountId = GerritAccountId
+  { gerritAccountId' :: Int,
+    gerritAccountHasMore' :: Maybe Bool
+  }
+  deriving (Eq, Show)
+
+instance FromJSON GerritAccountId where
+  parseJSON (Object v) = GerritAccountId <$> v .: "_account_id" <*> v .:? "_more_accounts"
+  parseJSON _ = mzero
+
+data GerritAccount = GerritAccount
+  { gerritAccountId :: Int,
+    gerritAccountName :: Text,
+    gerritAccountUsername :: Maybe Text,
+    gerritAccountEmail :: Maybe Text,
+    gerritAccountHasMore :: Maybe Bool
+  }
+  deriving (Eq, Show)
+
+instance FromJSON GerritAccount where
+  parseJSON (Object v) =
+    GerritAccount
+      <$> v .: "_account_id"
+      <*> v .: "name"
+      <*> v .:? "username"
+      <*> v .:? "email"
+      <*> v .:? "_more_accounts"
+  parseJSON _ = mzero
+
 data GerritRevision = GerritRevision
   { ref :: Text,
     kind :: GerritRevisionKind
   }
   deriving (Show, Generic, FromJSON)
 
-newtype GerritAccount = GerritAccount
+newtype GerritReviewAccount = GerritReviewAccount
   { unused_account_id :: Int
   }
   deriving (Show, Generic)
 
 -- We use a cusom parseJSON to decode `_account_id` as `account_id`
-instance FromJSON GerritAccount where
+instance FromJSON GerritReviewAccount where
   parseJSON = genericParseJSON aesonOptions
 
 newtype GerritLabel
-  = GerritLabel (M.Map GerritLabelVote GerritAccount)
+  = GerritLabel (M.Map GerritLabelVote GerritReviewAccount)
   deriving (Show, Generic)
   deriving anyclass (FromJSON)
 
