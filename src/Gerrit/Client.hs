@@ -34,9 +34,9 @@ withClient ::
   -- | A username (password is read from GERRIT_PASSWORD environment)
   Maybe Text ->
   -- | The callback
-  (GerritClient -> IO ()) ->
+  (GerritClient -> IO a) ->
   -- | withClient performs the IO
-  IO ()
+  IO a
 withClient url username callBack =
   do
     manager <- newManager tlsManagerSettings
