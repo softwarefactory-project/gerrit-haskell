@@ -36,7 +36,9 @@ import Data.Maybe (fromMaybe)
 import Data.Text (Text)
 import qualified Data.Text as T
 import Gerrit.Client
-import Gerrit.Data
+import Gerrit.Data.Account
+import Gerrit.Data.Change
+import Gerrit.Data.Review
 import Network.HTTP.Client (HttpException)
 
 -- | Return the url of a 'GerritChange'
@@ -84,8 +86,8 @@ postReview ::
 postReview change message label value' = gerritPost urlPath review
   where
     urlPath = "changes/" <> changeId <> "/revisions/" <> revHash <> "/review"
-    changeId = Gerrit.Data.id change
-    revHash = fromMaybe "" (Gerrit.Data.current_revision change)
+    changeId = Gerrit.Data.Change.id change
+    revHash = fromMaybe "" (Gerrit.Data.Change.current_revision change)
     review =
       ReviewInput
         { riMessage = Just message,
@@ -97,7 +99,7 @@ hasLabel :: T.Text -> Int -> GerritChange -> Bool
 hasLabel label labelValue change = case M.lookup label (labels change) of
   Just gerritLabel ->
     (> 0) $
-      length $ filter (\vote -> fromMaybe 0 (value vote) == labelValue) (Gerrit.Data.all gerritLabel)
+      length $ filter (\vote -> fromMaybe 0 (value vote) == labelValue) (Gerrit.Data.Change.all gerritLabel)
   _ -> False
 
 -- | Get user account id

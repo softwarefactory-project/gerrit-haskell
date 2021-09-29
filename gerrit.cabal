@@ -54,8 +54,10 @@ library
 
   hs-source-dirs:      src
   exposed-modules:     Gerrit
-                     , Gerrit.Data
-                     , Gerrit.Event
+                     , Gerrit.Data.Review
+                     , Gerrit.Data.Change
+                     , Gerrit.Data.Account
+                     , Gerrit.Data.Event
   other-modules:       Gerrit.Client
 
 test-suite gerrit-test

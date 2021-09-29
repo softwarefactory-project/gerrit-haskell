@@ -8,8 +8,9 @@ import Data.ByteString.Lazy (ByteString)
 import qualified Data.ByteString.Lazy as BSL
 import Data.Maybe (fromJust)
 import Gerrit
-import Gerrit.Data as Gerrit
-import qualified Gerrit.Event as Event
+import Gerrit.Data.Change
+import qualified Gerrit.Data.Event as Event
+import Gerrit.Data.Review
 import System.Directory (listDirectory)
 import Test.Tasty
 import Test.Tasty.HUnit
@@ -74,7 +75,7 @@ encodingTests dataFiles client =
   ]
   where
     prettyEncode obj = encode obj <> "\n"
-    reviewInput = Gerrit.ReviewInput (Just "Thanks!") Nothing
+    reviewInput = ReviewInput (Just "Thanks!") Nothing
     getRaw :: FilePath -> ByteString
     getRaw fp = fromJust $ lookup fp dataFiles
     isReviewResult :: Maybe ReviewResult -> Bool

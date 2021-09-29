@@ -3,7 +3,7 @@
 {-# LANGUAGE RecordWildCards #-}
 
 -- | Gerrit stream event data type
-module Gerrit.Event
+module Gerrit.Data.Event
   ( -- * Main event data types
     EventType (..),
     Event (..),
