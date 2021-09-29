@@ -25,7 +25,6 @@ module Gerrit
 
     -- * Convenient functions
     changeUrl,
-    hasLabel,
   )
 where
 
@@ -53,6 +52,7 @@ getVersion = gerritGet "config/server/version"
 queryChanges :: Int -> [GerritQuery] -> GerritClient -> IO [GerritChange]
 queryChanges count queries = gerritGet ("changes/?" <> changeQS count queries)
 
+-- | Get a change by change Id
 getChange :: Int -> GerritClient -> IO (Maybe GerritChange)
 getChange changeNumber client = do
   res <-
@@ -88,14 +88,6 @@ postReview change message label value' = gerritPost urlPath review
         { riMessage = Just message,
           riLabels = Just (M.fromList [(label, value')])
         }
-
--- | Check if a gerrit change as a label
-hasLabel :: T.Text -> Int -> GerritChange -> Bool
-hasLabel label labelValue change = case M.lookup label (labels change) of
-  Just gerritLabel ->
-    (> 0) $
-      length $ filter (\vote -> fromMaybe 0 (value vote) == labelValue) (Gerrit.Data.Change.all gerritLabel)
-  _ -> False
 
 -- | Get user account id
 getAccountId :: Int -> NonEmpty GerritAccountQuery -> GerritClient -> IO [GerritAccountId]

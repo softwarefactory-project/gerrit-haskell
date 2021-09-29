@@ -13,11 +13,13 @@ module Gerrit.Data.Change
     changeQS,
     queryText,
     defaultQueryChangeOptions,
+    hasLabel,
   )
 where
 
 import Data.Aeson
 import qualified Data.Map as M
+import Data.Maybe (fromMaybe)
 import Data.Text (Text)
 import qualified Data.Text as T
 import GHC.Generics (Generic)
@@ -59,6 +61,14 @@ changeQS count queries =
   where
     changeString = "q=" <> T.intercalate "+" (map queryText queries)
     countString = "n=" <> T.pack (show count)
+
+-- | Check if a gerrit change as a label
+hasLabel :: T.Text -> Int -> GerritChange -> Bool
+hasLabel label labelValue change = case M.lookup label (labels change) of
+  Just gerritLabel ->
+    (> 0) $
+      length $ filter (\vote -> fromMaybe 0 (value vote) == labelValue) (Gerrit.Data.Change.all gerritLabel)
+  _ -> False
 
 data GerritChangeStatus = NEW | MERGED | ABANDONED | DRAFT
   deriving (Eq, Show, Generic, FromJSON)
