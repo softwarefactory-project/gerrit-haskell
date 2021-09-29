@@ -18,10 +18,13 @@ module Gerrit.Data.Change
 where
 
 import Data.Aeson
+import Data.Aeson.Casing (aesonPrefix, snakeCase)
 import qualified Data.Map as M
 import Data.Maybe (fromMaybe)
 import Data.Text (Text)
 import qualified Data.Text as T
+import Data.Time.Clock
+import Data.Time.Format (defaultTimeLocale, parseTimeM)
 import GHC.Generics (Generic)
 
 aesonOptions :: Options
@@ -29,6 +32,10 @@ aesonOptions = defaultOptions {fieldLabelModifier = recordToJson}
   where
     recordToJson "number" = "_number"
     recordToJson "account_id" = "_account_id"
+    recordToJson "aAccountId" = "_account_id"
+    recordToJson "aName" = "name"
+    recordToJson "aEmail" = "email"
+    recordToJson "aUsername" = "username"
     recordToJson n = n
 
 -- https://gerrit-review.googlesource.com/Documentation/user-search.html
@@ -42,13 +49,21 @@ data GerritQuery
 -- | Convert a GerritQuery object to the search terms
 queryText :: GerritQuery -> Text
 queryText (Status stat) = "status:" <> T.toLower (T.pack $ show stat)
-queryText (Owner owner) = "owner:" <> owner
+queryText (Owner owner') = "owner:" <> owner'
 queryText (CommitMessage message) = "message:" <> message
 queryText (Project project') = "project:" <> project'
 queryText (ChangeId changeId) = "change:" <> changeId
 
 defaultQueryChangeOptions :: Text
-defaultQueryChangeOptions = "o=CURRENT_REVISION&o=DETAILED_LABELS"
+defaultQueryChangeOptions =
+  "o="
+    <> T.intercalate
+      "&o="
+      [ "MESSAGES",
+        "DETAILED_ACCOUNTS",
+        "DETAILED_LABELS",
+        "CURRENT_REVISION"
+      ]
 
 changeQS :: Int -> [GerritQuery] -> Text
 changeQS count queries =
@@ -98,6 +113,37 @@ data GerritDetailedLabel = GerritDetailedLabel
   }
   deriving (Show, Generic, FromJSON)
 
+data GerritAuthor = GerritAuthor
+  { aAccountId :: Int,
+    aName :: Text,
+    aEmail :: Text,
+    aUsername :: Text
+  }
+  deriving (Show, Generic)
+
+instance FromJSON GerritAuthor where
+  parseJSON = genericParseJSON aesonOptions
+
+newtype GerritTime = GerritTime {unGerritTime :: UTCTime} deriving (Show)
+
+instance FromJSON GerritTime where
+  parseJSON = withText "UTCTimePlus" (parse . T.unpack)
+    where
+      format = "%F %T.000000000"
+      tryParse f s = parseTimeM False defaultTimeLocale f s
+      parse s = GerritTime <$> tryParse format s
+
+data GerritChangeMessage = GerritChangeMessage
+  { mId :: Text,
+    mauthor :: Maybe GerritAuthor,
+    mDate :: GerritTime,
+    mMessage :: Text
+  }
+  deriving (Show, Generic)
+
+instance FromJSON GerritChangeMessage where
+  parseJSON = genericParseJSON $ aesonPrefix snakeCase
+
 data GerritChange = GerritChange
   { id :: Text,
     project :: Text,
@@ -108,7 +154,9 @@ data GerritChange = GerritChange
     revisions :: M.Map Text (Maybe GerritRevision),
     current_revision :: Maybe Text,
     number :: Int,
-    labels :: M.Map Text GerritDetailedLabel
+    labels :: M.Map Text GerritDetailedLabel,
+    messages :: [GerritChangeMessage],
+    owner :: GerritAuthor
   }
   deriving (Show, Generic)
 

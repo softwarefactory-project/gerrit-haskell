@@ -73,6 +73,7 @@ gerritPost path postData GerritClient {..} =
 gerritGet :: (FromJSON a) => Text -> GerritClient -> IO a
 gerritGet path GerritClient {..} =
   do
-    request <- parseUrlThrow (unpack $ baseUrl <> path)
+    let url = baseUrl <> path
+    request <- parseUrlThrow (unpack url)
     response <- httpLbs request manager
     gerritDecode response

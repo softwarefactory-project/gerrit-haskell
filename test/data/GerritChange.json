@@ -5,33 +5,127 @@
   "hashtags": [],
   "change_id": "Ic6add806c49bccaf6e15d4ef1c62522d56eb9384",
   "subject": "Initial summon",
-  "status": "NEW",
+  "status": "MERGED",
   "created": "2020-07-15 19:39:55.000000000",
-  "updated": "2020-07-15 23:01:14.000000000",
-  "submit_type": "MERGE_IF_NECESSARY",
-  "mergeable": true,
+  "updated": "2020-07-16 18:08:59.000000000",
+  "submitted": "2020-07-16 18:08:59.000000000",
+  "submitter": {
+    "_account_id": 458,
+    "name": "Zuul CI",
+    "email": "zuul@softwarefactory-project.io",
+    "username": "zuul",
+    "avatars": [
+      {
+        "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+        "height": 32
+      },
+      {
+        "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+        "height": 56
+      },
+      {
+        "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+        "height": 100
+      },
+      {
+        "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+        "height": 120
+      }
+    ]
+  },
   "insertions": 295,
   "deletions": 0,
+  "total_comment_count": 0,
   "unresolved_comment_count": 0,
+  "has_review_started": true,
+  "submission_id": "18839-1594922939722-7c5a83e2",
   "_number": 18839,
   "owner": {
-    "_account_id": 7
+    "_account_id": 7,
+    "name": "Tristan de Cacqueray",
+    "email": "tdecacqu@redhat.com",
+    "username": "TristanCacqueray",
+    "avatars": [
+      {
+        "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+        "height": 32
+      },
+      {
+        "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+        "height": 56
+      },
+      {
+        "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+        "height": 100
+      },
+      {
+        "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+        "height": 120
+      }
+    ]
   },
   "labels": {
     "Code-Review": {
       "all": [
         {
-          "value": 1,
+          "value": 0,
+          "_account_id": 458,
+          "name": "Zuul CI",
+          "email": "zuul@softwarefactory-project.io",
+          "username": "zuul",
+          "avatars": [
+            {
+              "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+              "height": 32
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+              "height": 56
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+              "height": 100
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+              "height": 120
+            }
+          ]
+        },
+        {
+          "value": 2,
+          "date": "2020-07-16 18:08:48.000000000",
           "permitted_voting_range": {
-            "min": -1,
-            "max": 1
+            "min": 2,
+            "max": 2
           },
-          "_account_id": 458
+          "_account_id": 7,
+          "name": "Tristan de Cacqueray",
+          "email": "tdecacqu@redhat.com",
+          "username": "TristanCacqueray",
+          "avatars": [
+            {
+              "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+              "height": 32
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+              "height": 56
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+              "height": 100
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+              "height": 120
+            }
+          ]
         }
       ],
       "values": {
         "-2": "Do not submit",
-        "-1": "I would prefer that you didn't submit this",
+        "-1": "I would prefer that you didn\u0027t submit this",
         " 0": "No score",
         "+1": "Looks good to me, but someone else must approve",
         "+2": "Looks good to me (core reviewer)"
@@ -41,28 +135,683 @@
     "Verified": {
       "all": [
         {
-          "value": 1,
-          "date": "2020-07-17 13:02:15.000000000",
+          "value": 2,
+          "date": "2020-07-16 18:08:59.000000000",
+          "post_submit": true,
           "permitted_voting_range": {
-            "min": -2,
+            "min": 2,
             "max": 2
           },
-          "_account_id": 458
+          "_account_id": 458,
+          "name": "Zuul CI",
+          "email": "zuul@softwarefactory-project.io",
+          "username": "zuul",
+          "avatars": [
+            {
+              "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+              "height": 32
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+              "height": 56
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+              "height": 100
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+              "height": 120
+            }
+          ]
         },
         {
-          "_account_id": 42
+          "value": 0,
+          "_account_id": 7,
+          "name": "Tristan de Cacqueray",
+          "email": "tdecacqu@redhat.com",
+          "username": "TristanCacqueray",
+          "avatars": [
+            {
+              "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+              "height": 32
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+              "height": 56
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+              "height": 100
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+              "height": 120
+            }
+          ]
         }
       ],
       "values": {
         "-2": "Fails",
-        "-1": "Doesn't seem to work",
+        "-1": "Doesn\u0027t seem to work",
         " 0": "No score",
         "+1": "Works for me",
         "+2": "Verified"
       },
       "default_value": 0
+    },
+    "Workflow": {
+      "all": [
+        {
+          "value": 0,
+          "_account_id": 458,
+          "name": "Zuul CI",
+          "email": "zuul@softwarefactory-project.io",
+          "username": "zuul",
+          "avatars": [
+            {
+              "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+              "height": 32
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+              "height": 56
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+              "height": 100
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+              "height": 120
+            }
+          ]
+        },
+        {
+          "value": 1,
+          "date": "2020-07-16 18:08:48.000000000",
+          "permitted_voting_range": {
+            "min": 1,
+            "max": 1
+          },
+          "_account_id": 7,
+          "name": "Tristan de Cacqueray",
+          "email": "tdecacqu@redhat.com",
+          "username": "TristanCacqueray",
+          "avatars": [
+            {
+              "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+              "height": 32
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+              "height": 56
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+              "height": 100
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+              "height": 120
+            }
+          ]
+        }
+      ],
+      "values": {
+        "-1": "Work in progress",
+        " 0": "Ready for reviews",
+        "+1": "Approved"
+      },
+      "default_value": 0
     }
   },
+  "removable_reviewers": [],
+  "reviewers": {
+    "REVIEWER": [
+      {
+        "_account_id": 7,
+        "name": "Tristan de Cacqueray",
+        "email": "tdecacqu@redhat.com",
+        "username": "TristanCacqueray",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+            "height": 56
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+            "height": 120
+          }
+        ]
+      },
+      {
+        "_account_id": 458,
+        "name": "Zuul CI",
+        "email": "zuul@softwarefactory-project.io",
+        "username": "zuul",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+            "height": 56
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+            "height": 120
+          }
+        ]
+      }
+    ]
+  },
+  "pending_reviewers": {},
+  "messages": [
+    {
+      "id": "ee2e77b6628d5a007029fab6ed7a6f6132c031c9",
+      "tag": "autogenerated:gerrit:newPatchSet",
+      "author": {
+        "_account_id": 7,
+        "name": "Tristan de Cacqueray",
+        "email": "tdecacqu@redhat.com",
+        "username": "TristanCacqueray",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+            "height": 56
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+            "height": 120
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 7,
+        "name": "Tristan de Cacqueray",
+        "email": "tdecacqu@redhat.com",
+        "username": "TristanCacqueray",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+            "height": 56
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+            "height": 120
+          }
+        ]
+      },
+      "date": "2020-07-15 19:39:55.000000000",
+      "message": "Uploaded patch set 1.",
+      "_revision_number": 1
+    },
+    {
+      "id": "3e1eb0ecb29947dda8ef79bbe67c193e9465db7a",
+      "tag": "autogenerated:gerrit:newPatchSet",
+      "author": {
+        "_account_id": 7,
+        "name": "Tristan de Cacqueray",
+        "email": "tdecacqu@redhat.com",
+        "username": "TristanCacqueray",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+            "height": 56
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+            "height": 120
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 7,
+        "name": "Tristan de Cacqueray",
+        "email": "tdecacqu@redhat.com",
+        "username": "TristanCacqueray",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+            "height": 56
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+            "height": 120
+          }
+        ]
+      },
+      "date": "2020-07-15 21:03:21.000000000",
+      "message": "Uploaded patch set 2.",
+      "_revision_number": 2
+    },
+    {
+      "id": "ba03042aa7252f4ff133d31f66b75c60f80c067f",
+      "tag": "autogenerated:gerrit:newPatchSet",
+      "author": {
+        "_account_id": 7,
+        "name": "Tristan de Cacqueray",
+        "email": "tdecacqu@redhat.com",
+        "username": "TristanCacqueray",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+            "height": 56
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+            "height": 120
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 7,
+        "name": "Tristan de Cacqueray",
+        "email": "tdecacqu@redhat.com",
+        "username": "TristanCacqueray",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+            "height": 56
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+            "height": 120
+          }
+        ]
+      },
+      "date": "2020-07-15 23:01:02.000000000",
+      "message": "Uploaded patch set 3.",
+      "_revision_number": 3
+    },
+    {
+      "id": "dc3ddbc6022f57505b3924d4c42df19ea0d2d527",
+      "author": {
+        "_account_id": 458,
+        "name": "Zuul CI",
+        "email": "zuul@softwarefactory-project.io",
+        "username": "zuul",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+            "height": 56
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+            "height": 120
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 458,
+        "name": "Zuul CI",
+        "email": "zuul@softwarefactory-project.io",
+        "username": "zuul",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+            "height": 56
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+            "height": 120
+          }
+        ]
+      },
+      "date": "2020-07-15 23:01:13.000000000",
+      "message": "Patch Set 3:\n\nStarting check jobs. Status at",
+      "_revision_number": 3
+    },
+    {
+      "id": "f053926475b8fd9da58d55ae47d8f7eef3a3a727",
+      "author": {
+        "_account_id": 458,
+        "name": "Zuul CI",
+        "email": "zuul@softwarefactory-project.io",
+        "username": "zuul",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+            "height": 56
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+            "height": 120
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 458,
+        "name": "Zuul CI",
+        "email": "zuul@softwarefactory-project.io",
+        "username": "zuul",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+            "height": 56
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+            "height": 120
+          }
+        ]
+      },
+      "date": "2020-07-15 23:01:14.000000000",
+      "message": "Patch Set 3: Verified+1\n\nBuild succeeded.\n\n- noop https://softwarefactory-project.io/zuul/t/local/build/c6511d87e5f644e7b566b73741600392 : SUCCESS in 0s",
+      "_revision_number": 3
+    },
+    {
+      "id": "9d688628218ba8972d8ecf51669bec9c83d3a18f",
+      "author": {
+        "_account_id": 7,
+        "name": "Tristan de Cacqueray",
+        "email": "tdecacqu@redhat.com",
+        "username": "TristanCacqueray",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+            "height": 56
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+            "height": 120
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 7,
+        "name": "Tristan de Cacqueray",
+        "email": "tdecacqu@redhat.com",
+        "username": "TristanCacqueray",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+            "height": 56
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+            "height": 120
+          }
+        ]
+      },
+      "date": "2020-07-16 18:08:48.000000000",
+      "message": "Patch Set 3: Code-Review+2 Workflow+1",
+      "_revision_number": 3
+    },
+    {
+      "id": "f2dcf8b15417b0057b2e7384c51d194cce7a0491",
+      "tag": "autogenerated:gerrit:merged",
+      "author": {
+        "_account_id": 458,
+        "name": "Zuul CI",
+        "email": "zuul@softwarefactory-project.io",
+        "username": "zuul",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+            "height": 56
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+            "height": 120
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 458,
+        "name": "Zuul CI",
+        "email": "zuul@softwarefactory-project.io",
+        "username": "zuul",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+            "height": 56
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+            "height": 120
+          }
+        ]
+      },
+      "date": "2020-07-16 18:08:59.000000000",
+      "message": "Change has been successfully merged by Zuul CI",
+      "_revision_number": 3
+    },
+    {
+      "id": "10a3e0eeee03627b1d57a9e932a479545a2f2ade",
+      "author": {
+        "_account_id": 458,
+        "name": "Zuul CI",
+        "email": "zuul@softwarefactory-project.io",
+        "username": "zuul",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+            "height": 56
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+            "height": 120
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 458,
+        "name": "Zuul CI",
+        "email": "zuul@softwarefactory-project.io",
+        "username": "zuul",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+            "height": 56
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+            "height": 120
+          }
+        ]
+      },
+      "date": "2020-07-16 18:08:59.000000000",
+      "message": "Patch Set 3: -Verified\n\nStarting gate jobs.",
+      "_revision_number": 3
+    },
+    {
+      "id": "b3d3d3639dc32a9ee80d7b65a82ab57615925d6d",
+      "author": {
+        "_account_id": 458,
+        "name": "Zuul CI",
+        "email": "zuul@softwarefactory-project.io",
+        "username": "zuul",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+            "height": 56
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+            "height": 120
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 458,
+        "name": "Zuul CI",
+        "email": "zuul@softwarefactory-project.io",
+        "username": "zuul",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+            "height": 56
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/72ca689f16f3f13bf36869ea655c488e.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+            "height": 120
+          }
+        ]
+      },
+      "date": "2020-07-16 18:08:59.000000000",
+      "message": "Patch Set 3: Verified+2\n\nBuild succeeded (gate pipeline).\n\n- noop https://softwarefactory-project.io/zuul/t/local/build/261409bf24ea4b20a8a4304bcbed343a : SUCCESS in 0s",
+      "_revision_number": 3
+    }
+  ],
   "current_revision": "155658085799464e8d198edb7c8bd62de9ec9ae6",
   "revisions": {
     "155658085799464e8d198edb7c8bd62de9ec9ae6": {
@@ -70,7 +819,28 @@
       "_number": 3,
       "created": "2020-07-15 23:01:02.000000000",
       "uploader": {
-        "_account_id": 7
+        "_account_id": 7,
+        "name": "Tristan de Cacqueray",
+        "email": "tdecacqu@redhat.com",
+        "username": "TristanCacqueray",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d56",
+            "height": 56
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/921d0ed12095380e7b79d606bb037261.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d120",
+            "height": 120
+          }
+        ]
       },
       "ref": "refs/changes/39/18839/3",
       "fetch": {
@@ -80,5 +850,6 @@
         }
       }
     }
-  }
+  },
+  "requirements": []
 }

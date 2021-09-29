@@ -105,7 +105,7 @@ encodingTests dataFiles client =
       Just _ -> True
       Nothing -> False
     testIsApproved = case decode (getRaw "GerritChange.json") of
-      Just change -> hasLabel "Code-Review" 1 change
+      Just change -> hasLabel "Code-Review" 2 change
       Nothing -> False
     testGetUrl = case decode (getRaw "GerritChange.json") of
       Just change -> changeUrl client change
