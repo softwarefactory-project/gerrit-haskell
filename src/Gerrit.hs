@@ -51,18 +51,13 @@ getVersion = gerritGet "config/server/version"
 
 -- | Search for changes
 queryChanges :: Int -> [GerritQuery] -> GerritClient -> IO [GerritChange]
-queryChanges count queries = gerritGet ("changes/?" <> queryString)
-  where
-    queryString = T.intercalate "&" [changeString, countString, option]
-    changeString = "q=" <> T.intercalate "+" (map queryText queries)
-    countString = "n=" <> T.pack (show count)
-    option = "o=CURRENT_REVISION&o=DETAILED_LABELS"
+queryChanges count queries = gerritGet ("changes/?" <> changeQS count queries)
 
 getChange :: Int -> GerritClient -> IO (Maybe GerritChange)
 getChange changeNumber client = do
   res <-
     try
-      ( gerritGet ("changes/" <> T.pack (show changeNumber) <> "?o=CURRENT_REVISION&o=DETAILED_LABELS") client
+      ( gerritGet ("changes/" <> T.pack (show changeNumber) <> "?" <> defaultQueryChangeOptions) client
       ) ::
       IO (Either HttpException GerritChange)
   pure $ case res of

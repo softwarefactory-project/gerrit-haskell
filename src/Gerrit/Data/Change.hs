@@ -10,9 +10,9 @@ module Gerrit.Data.Change
     GerritRevision (..),
     GerritDetailedLabelVote (..),
     GerritDetailedLabel (..),
-
-    -- * Convenient functions
+    changeQS,
     queryText,
+    defaultQueryChangeOptions,
   )
 where
 
@@ -44,6 +44,21 @@ queryText (Owner owner) = "owner:" <> owner
 queryText (CommitMessage message) = "message:" <> message
 queryText (Project project') = "project:" <> project'
 queryText (ChangeId changeId) = "change:" <> changeId
+
+defaultQueryChangeOptions :: Text
+defaultQueryChangeOptions = "o=CURRENT_REVISION&o=DETAILED_LABELS"
+
+changeQS :: Int -> [GerritQuery] -> Text
+changeQS count queries =
+  T.intercalate
+    "&"
+    [ changeString,
+      countString,
+      defaultQueryChangeOptions
+    ]
+  where
+    changeString = "q=" <> T.intercalate "+" (map queryText queries)
+    countString = "n=" <> T.pack (show count)
 
 data GerritChangeStatus = NEW | MERGED | ABANDONED | DRAFT
   deriving (Eq, Show, Generic, FromJSON)
