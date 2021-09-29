@@ -30,7 +30,7 @@ module Gerrit
 where
 
 import Control.Exception (try)
-import Data.List.NonEmpty (NonEmpty, toList)
+import Data.List.NonEmpty (NonEmpty)
 import qualified Data.Map as M
 import Data.Maybe (fromMaybe)
 import Data.Text (Text)
@@ -98,15 +98,9 @@ hasLabel label labelValue change = case M.lookup label (labels change) of
   _ -> False
 
 -- | Get user account id
-accountQs :: Int -> NonEmpty GerritAccountQuery -> Text
-accountQs count queries = T.intercalate "&" [searchString, countString]
-  where
-    searchString = "q=" <> T.intercalate "+" (map userQueryText $ toList queries)
-    countString = "n=" <> T.pack (show count)
-
 getAccountId :: Int -> NonEmpty GerritAccountQuery -> GerritClient -> IO [GerritAccountId]
 getAccountId count queries = gerritGet ("accounts/?" <> accountQs count queries)
 
--- | Get user account id
+-- | Get user account details
 getAccount :: Int -> NonEmpty GerritAccountQuery -> GerritClient -> IO [GerritAccount]
 getAccount count queries = gerritGet ("accounts/?" <> accountQs count queries <> "&o=DETAILS")

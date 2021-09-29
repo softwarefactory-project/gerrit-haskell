@@ -6,11 +6,13 @@ module Gerrit.Data.Account
     GerritAccount (..),
     GerritAccountQuery (..),
     userQueryText,
+    accountQs,
   )
 where
 
 import Control.Monad (mzero)
 import Data.Aeson
+import Data.List.NonEmpty (NonEmpty, toList)
 import Data.Text (Text)
 import qualified Data.Text as T
 
@@ -33,6 +35,12 @@ userQueryText guq = case guq of
   IsInactive -> "is:inactive"
   where
     escapeChar = T.replace "'" " "
+
+accountQs :: Int -> NonEmpty GerritAccountQuery -> Text
+accountQs count queries = T.intercalate "&" [searchString, countString]
+  where
+    searchString = "q=" <> T.intercalate "+" (map userQueryText $ toList queries)
+    countString = "n=" <> T.pack (show count)
 
 data GerritAccountId = GerritAccountId
   { gerritAccountId' :: Int,
