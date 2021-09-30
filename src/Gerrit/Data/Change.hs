@@ -156,7 +156,10 @@ data GerritChange = GerritChange
     number :: Int,
     labels :: M.Map Text GerritDetailedLabel,
     messages :: [GerritChangeMessage],
-    owner :: GerritAuthor
+    owner :: GerritAuthor,
+    created :: GerritTime,
+    updated :: GerritTime,
+    submitted :: Maybe GerritTime
   }
   deriving (Show, Generic)
 
