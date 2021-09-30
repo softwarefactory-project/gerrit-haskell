@@ -121,7 +121,8 @@ data GerritRevision = GerritRevision
   { grRef :: Text,
     grKind :: GerritRevisionKind,
     grFiles :: M.Map Text GerritFile,
-    grCommit :: GerritCommit
+    grCommit :: GerritCommit,
+    grUploader :: GerritAuthor
   }
   deriving (Show, Generic)
 
