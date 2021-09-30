@@ -159,7 +159,9 @@ data GerritChange = GerritChange
     owner :: GerritAuthor,
     created :: GerritTime,
     updated :: GerritTime,
-    submitted :: Maybe GerritTime
+    submitted :: Maybe GerritTime,
+    insertions :: Int,
+    deletions :: Int
   }
   deriving (Show, Generic)
 
