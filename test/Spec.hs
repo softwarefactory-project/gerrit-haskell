@@ -18,10 +18,10 @@ import Test.Tasty.HUnit
 main :: IO ()
 main =
   do
-    files <- listDirectory "./test/data"
-    dataFiles <- traverse (BSL.readFile . ("./test/data/" <>)) files
+    files' <- listDirectory "./test/data"
+    dataFiles <- traverse (BSL.readFile . ("./test/data/" <>)) files'
     withClient "http://example.com/r" Nothing $ \client ->
-      defaultMain (tests (zip files dataFiles) client)
+      defaultMain (tests (zip files' dataFiles) client)
 
 tests :: [(FilePath, ByteString)] -> GerritClient -> TestTree
 tests dataFiles client = testGroup "Tests" $ [unitTests] <> encodingTests dataFiles client

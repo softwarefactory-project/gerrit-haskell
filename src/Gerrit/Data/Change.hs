@@ -62,7 +62,8 @@ defaultQueryChangeOptions =
       [ "MESSAGES",
         "DETAILED_ACCOUNTS",
         "DETAILED_LABELS",
-        "CURRENT_REVISION"
+        "CURRENT_REVISION",
+        "CURRENT_FILES"
       ]
 
 changeQS :: Int -> [GerritQuery] -> Text
@@ -92,11 +93,27 @@ data GerritChangeStatus = NEW | MERGED | ABANDONED | DRAFT
 data GerritRevisionKind = REWORK | TRIVIAL_REBASE | MERGE_FIRST_PARENT_UPDATE | NO_CODE_CHANGE | NO_CHANGE
   deriving (Eq, Show, Generic, FromJSON)
 
-data GerritRevision = GerritRevision
-  { ref :: Text,
-    kind :: GerritRevisionKind
+data GerritFile = GerritFile
+  { gfStatus :: Text,
+    gfLinesInserted :: Maybe Int,
+    gfLinesDeleted :: Maybe Int,
+    gfSizeDelta :: Maybe Int,
+    gfSize :: Maybe Int
   }
-  deriving (Show, Generic, FromJSON)
+  deriving (Show, Generic)
+
+instance FromJSON GerritFile where
+  parseJSON = genericParseJSON $ aesonPrefix snakeCase
+
+data GerritRevision = GerritRevision
+  { grRef :: Text,
+    grKind :: GerritRevisionKind,
+    grFiles :: M.Map Text GerritFile
+  }
+  deriving (Show, Generic)
+
+instance FromJSON GerritRevision where
+  parseJSON = genericParseJSON $ aesonPrefix snakeCase
 
 data GerritDetailedLabelVote = GerritDetailedLabelVote
   { value :: Maybe Int,

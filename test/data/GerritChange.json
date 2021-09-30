@@ -848,6 +848,56 @@
           "url": "https://softwarefactory-project.io/r/software-factory/gerrit-haskell",
           "ref": "refs/changes/39/18839/3"
         }
+      },
+      "files": {
+        ".zuul.yaml": {
+          "status": "A",
+          "lines_inserted": 5,
+          "size_delta": 71,
+          "size": 71
+        },
+        "LICENSE": {
+          "status": "A",
+          "lines_inserted": 201,
+          "size_delta": 11357,
+          "size": 11357
+        },
+        "README.md": {
+          "status": "A",
+          "lines_inserted": 3,
+          "size_delta": 34,
+          "size": 34
+        },
+        "app/Main.hs": {
+          "status": "A",
+          "lines_inserted": 6,
+          "size_delta": 82,
+          "size": 82
+        },
+        "gerrit-haskell.cabal": {
+          "status": "A",
+          "lines_inserted": 61,
+          "size_delta": 1863,
+          "size": 1863
+        },
+        "src/Gerrit.hs": {
+          "status": "A",
+          "lines_inserted": 13,
+          "size_delta": 279,
+          "size": 279
+        },
+        "stack.yaml": {
+          "status": "A",
+          "lines_inserted": 1,
+          "size_delta": 19,
+          "size": 19
+        },
+        "test/Spec.hs": {
+          "status": "A",
+          "lines_inserted": 5,
+          "size_delta": 101,
+          "size": 101
+        }
       }
     }
   },
