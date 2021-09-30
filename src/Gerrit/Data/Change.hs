@@ -24,7 +24,7 @@ import Data.Maybe (fromMaybe)
 import Data.Text (Text)
 import qualified Data.Text as T
 import Data.Time.Clock
-import Data.Time.Format (defaultTimeLocale, parseTimeM)
+import Data.Time.Format (defaultTimeLocale, formatTime, parseTimeM)
 import GHC.Generics (Generic)
 
 aesonOptions :: Options
@@ -45,6 +45,7 @@ data GerritQuery
   | CommitMessage Text
   | Project Text
   | ChangeId Text
+  | After UTCTime
 
 -- | Convert a GerritQuery object to the search terms
 queryText :: GerritQuery -> Text
@@ -53,6 +54,9 @@ queryText (Owner owner') = "owner:" <> owner'
 queryText (CommitMessage message) = "message:" <> message
 queryText (Project project') = "project:" <> project'
 queryText (ChangeId changeId) = "change:" <> changeId
+queryText (After date') = "after:" <> T.pack formatedDate
+  where
+    formatedDate = formatTime defaultTimeLocale "%F" date'
 
 defaultQueryChangeOptions :: Text
 defaultQueryChangeOptions =
