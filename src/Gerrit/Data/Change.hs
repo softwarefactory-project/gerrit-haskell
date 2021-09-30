@@ -36,6 +36,7 @@ aesonOptions = defaultOptions {fieldLabelModifier = recordToJson}
     recordToJson "aName" = "name"
     recordToJson "aEmail" = "email"
     recordToJson "aUsername" = "username"
+    recordToJson "more_changes" = "_more_changes"
     recordToJson n = n
 
 -- https://gerrit-review.googlesource.com/Documentation/user-search.html
@@ -214,7 +215,8 @@ data GerritChange = GerritChange
     updated :: GerritTime,
     submitted :: Maybe GerritTime,
     insertions :: Int,
-    deletions :: Int
+    deletions :: Int,
+    more_changes :: Maybe Bool
   }
   deriving (Show, Generic)
 
