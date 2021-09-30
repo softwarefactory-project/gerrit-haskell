@@ -63,7 +63,8 @@ defaultQueryChangeOptions =
         "DETAILED_ACCOUNTS",
         "DETAILED_LABELS",
         "CURRENT_REVISION",
-        "CURRENT_FILES"
+        "CURRENT_FILES",
+        "CURRENT_COMMIT"
       ]
 
 changeQS :: Int -> [GerritQuery] -> Text
@@ -105,10 +106,22 @@ data GerritFile = GerritFile
 instance FromJSON GerritFile where
   parseJSON = genericParseJSON $ aesonPrefix snakeCase
 
+data GerritCommit = GerritCommit
+  { cAuthor :: GerritCommitAuthor,
+    cCommitter :: GerritCommitAuthor,
+    cSubject :: Text,
+    cMessage :: Text
+  }
+  deriving (Show, Generic)
+
+instance FromJSON GerritCommit where
+  parseJSON = genericParseJSON $ aesonPrefix snakeCase
+
 data GerritRevision = GerritRevision
   { grRef :: Text,
     grKind :: GerritRevisionKind,
-    grFiles :: M.Map Text GerritFile
+    grFiles :: M.Map Text GerritFile,
+    grCommit :: GerritCommit
   }
   deriving (Show, Generic)
 
@@ -140,6 +153,16 @@ data GerritAuthor = GerritAuthor
 
 instance FromJSON GerritAuthor where
   parseJSON = genericParseJSON aesonOptions
+
+data GerritCommitAuthor = GerritCommitAuthor
+  { caName :: Text,
+    caEmail :: Text,
+    caDate :: Text
+  }
+  deriving (Show, Generic)
+
+instance FromJSON GerritCommitAuthor where
+  parseJSON = genericParseJSON $ aesonPrefix snakeCase
 
 newtype GerritTime = GerritTime {unGerritTime :: UTCTime} deriving (Show)
 

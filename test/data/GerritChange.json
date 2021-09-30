@@ -849,6 +849,28 @@
           "ref": "refs/changes/39/18839/3"
         }
       },
+      "commit": {
+        "parents": [
+          {
+            "commit": "fda786eda9e53208ede9b571174b85e4be39a44d",
+            "subject": "ManageSF commit"
+          }
+        ],
+        "author": {
+          "name": "Tristan Cacqueray",
+          "email": "tdecacqu@redhat.com",
+          "date": "2020-07-15 19:38:27.000000000",
+          "tz": 0
+        },
+        "committer": {
+          "name": "Tristan Cacqueray",
+          "email": "tdecacqu@redhat.com",
+          "date": "2020-07-15 23:00:30.000000000",
+          "tz": 0
+        },
+        "subject": "Initial summon",
+        "message": "Initial summon\n\nChange-Id: Ic6add806c49bccaf6e15d4ef1c62522d56eb9384\n"
+      },
       "files": {
         ".zuul.yaml": {
           "status": "A",
