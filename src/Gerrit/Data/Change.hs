@@ -67,17 +67,25 @@ defaultQueryChangeOptions =
         "CURRENT_COMMIT"
       ]
 
-changeQS :: Int -> [GerritQuery] -> Text
-changeQS count queries =
-  T.intercalate
-    "&"
-    [ changeString,
-      countString,
-      defaultQueryChangeOptions
-    ]
+-- | Build the Query String for the changes endpoint
+-- >>> changeQS 10 [Project "software-factory/gerrit-haskell"] Nothing
+-- "q=project:software-factory/gerrit-haskell&n=10&o=MESSAGES&o=DETAILED_ACCOUNTS&o=DETAILED_LABELS&o=CURRENT_REVISION&o=CURRENT_FILES&o=CURRENT_COMMIT"
+-- >>> changeQS 10 [Project "software-factory/gerrit-haskell"] $ Just 100
+-- "q=project:software-factory/gerrit-haskell&n=10&o=MESSAGES&o=DETAILED_ACCOUNTS&o=DETAILED_LABELS&o=CURRENT_REVISION&o=CURRENT_FILES&o=CURRENT_COMMIT&start=100"
+changeQS :: Int -> [GerritQuery] -> Maybe Int -> Text
+changeQS count queries startM =
+  let base =
+        T.intercalate
+          "&"
+          [ changeString,
+            countString,
+            defaultQueryChangeOptions
+          ]
+   in base <> startString
   where
     changeString = "q=" <> T.intercalate "+" (map queryText queries)
     countString = "n=" <> T.pack (show count)
+    startString = maybe mempty (\s -> "&start=" <> T.pack (show s)) startM
 
 -- | Check if a gerrit change as a label
 hasLabel :: T.Text -> Int -> GerritChange -> Bool
@@ -95,7 +103,7 @@ data GerritRevisionKind = REWORK | TRIVIAL_REBASE | MERGE_FIRST_PARENT_UPDATE | 
   deriving (Eq, Show, Generic, FromJSON)
 
 data GerritFile = GerritFile
-  { gfStatus :: Text,
+  { gfStatus :: Maybe Text,
     gfLinesInserted :: Maybe Int,
     gfLinesDeleted :: Maybe Int,
     gfSizeDelta :: Maybe Int,

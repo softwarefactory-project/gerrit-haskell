@@ -49,8 +49,8 @@ getVersion :: GerritClient -> IO GerritVersion
 getVersion = gerritGet "config/server/version"
 
 -- | Search for changes
-queryChanges :: Int -> [GerritQuery] -> GerritClient -> IO [GerritChange]
-queryChanges count queries = gerritGet ("changes/?" <> changeQS count queries)
+queryChanges :: Int -> [GerritQuery] -> Maybe Int -> GerritClient -> IO [GerritChange]
+queryChanges count queries startM = gerritGet ("changes/?" <> changeQS count queries startM)
 
 -- | Get a change by change Id
 getChange :: Int -> GerritClient -> IO (Maybe GerritChange)

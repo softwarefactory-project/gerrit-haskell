@@ -31,8 +31,15 @@ unitTests =
   testGroup
     "unitTests"
     [ testCase "queryString status" $
-        assertEqual "Query string is valid" "status:new" (queryText (Status NEW))
+        assertEqual "Query string is valid" "status:new" (queryText (Status NEW)),
+      testCase "changeQS w/o start" $
+        assertEqual "Change query is valid" expected1 (changeQS 10 [Project "gerrit-haskell"] Nothing),
+      testCase "changeQS with start" $
+        assertEqual "Change query is valid" expected2 (changeQS 10 [Project "gerrit-haskell"] (Just 100))
     ]
+  where
+    expected1 = "q=project:gerrit-haskell&n=10&o=MESSAGES&o=DETAILED_ACCOUNTS&o=DETAILED_LABELS&o=CURRENT_REVISION&o=CURRENT_FILES&o=CURRENT_COMMIT"
+    expected2 = "q=project:gerrit-haskell&n=10&o=MESSAGES&o=DETAILED_ACCOUNTS&o=DETAILED_LABELS&o=CURRENT_REVISION&o=CURRENT_FILES&o=CURRENT_COMMIT&start=100"
 
 encodingTests :: [(FilePath, ByteString)] -> GerritClient -> [TestTree]
 encodingTests dataFiles client =
