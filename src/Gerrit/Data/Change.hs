@@ -97,7 +97,10 @@ hasLabel :: T.Text -> Int -> GerritChange -> Bool
 hasLabel label labelValue change = case M.lookup label (labels change) of
   Just gerritLabel ->
     (> 0) $
-      length $ filter (\vote -> fromMaybe 0 (value vote) == labelValue) (Gerrit.Data.Change.all gerritLabel)
+      length $
+        filter
+          (\vote -> fromMaybe 0 (value vote) == labelValue)
+          (fromMaybe [] (Gerrit.Data.Change.all gerritLabel))
   _ -> False
 
 data GerritChangeStatus = NEW | MERGED | ABANDONED | DRAFT
@@ -152,7 +155,7 @@ instance FromJSON GerritDetailedLabelVote where
   parseJSON = genericParseJSON aesonOptions
 
 data GerritDetailedLabel = GerritDetailedLabel
-  { all :: [GerritDetailedLabelVote],
+  { all :: Maybe [GerritDetailedLabelVote],
     default_value :: Int
   }
   deriving (Show, Generic, FromJSON)
