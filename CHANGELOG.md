@@ -5,6 +5,7 @@
 - Add EventCreatedOn Event attribute
 - Split Data module into specialized modules
 - Support more fields for GerritChange
+- Add the getProjects function
 
 ## 0.1.0.0 (2021-05-30)
 

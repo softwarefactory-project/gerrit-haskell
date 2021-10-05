@@ -60,6 +60,7 @@ library
                      , Gerrit.Data.Change
                      , Gerrit.Data.Account
                      , Gerrit.Data.Event
+                     , Gerrit.Data.Project
   other-modules:       Gerrit.Client
 
 test-suite gerrit-test

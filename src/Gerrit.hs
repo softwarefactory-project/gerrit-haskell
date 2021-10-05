@@ -13,6 +13,7 @@ module Gerrit
     postReview,
     getAccountId,
     getAccount,
+    getProjects,
 
     -- * Main data types
     GerritVersion (..),
@@ -37,6 +38,7 @@ import qualified Data.Text as T
 import Gerrit.Client
 import Gerrit.Data.Account
 import Gerrit.Data.Change
+import Gerrit.Data.Project
 import Gerrit.Data.Review
 import Network.HTTP.Client (HttpException)
 
@@ -47,6 +49,10 @@ changeUrl client change = baseUrl client <> T.pack (show (number change))
 -- | Get the server version
 getVersion :: GerritClient -> IO GerritVersion
 getVersion = gerritGet "config/server/version"
+
+-- | Get projects
+getProjects :: Int -> Int -> ProjectQuery -> GerritClient -> IO GerritProjectsMessage
+getProjects count start query = gerritGet ("projects/?" <> projectQS count query (Just start))
 
 -- | Search for changes
 queryChanges :: Int -> [GerritQuery] -> Maybe Int -> GerritClient -> IO [GerritChange]
