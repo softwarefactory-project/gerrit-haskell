@@ -7,6 +7,7 @@ module Gerrit.Client
     withClient,
     gerritGet,
     gerritPost,
+    getClient,
   )
 where
 
@@ -27,6 +28,18 @@ data GerritClient = GerritClient
     auth :: Maybe (Text, Text)
   }
 
+-- | Need to be call through withOpenSSL
+getClient :: Text -> Maybe Text -> IO GerritClient
+getClient url username = do
+  let baseUrl = T.dropWhileEnd (== '/') url <> "/"
+  manager <- newOpenSSLManager
+  auth <- case username of
+    Just user -> do
+      pass <- lookupEnv "GERRIT_PASSWORD"
+      pure $ Just (user, T.pack $ fromMaybe "" pass)
+    _ -> pure Nothing
+  pure $ GerritClient {..}
+
 -- | Create the 'GerritClient'
 withClient ::
   -- | The gerrit api url
@@ -38,15 +51,8 @@ withClient ::
   -- | withClient performs the IO
   IO a
 withClient url username callBack = withOpenSSL $ do
-  manager <- newOpenSSLManager
-  auth <- case username of
-    Just user -> do
-      pass <- lookupEnv "GERRIT_PASSWORD"
-      pure $ Just (user, T.pack $ fromMaybe "" pass)
-    _ -> pure Nothing
-  callBack (GerritClient {..})
-  where
-    baseUrl = T.dropWhileEnd (== '/') url <> "/"
+  client <- getClient url username
+  callBack client
 
 gerritDecode :: (FromJSON a, Applicative f) => Response BSL.ByteString -> f a
 gerritDecode response = case eitherDecode $ BSL.drop 5 $ responseBody response of
