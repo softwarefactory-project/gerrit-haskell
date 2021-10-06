@@ -53,11 +53,29 @@ getVersion :: GerritClient -> IO GerritVersion
 getVersion = gerritGet "config/server/version"
 
 -- | Get projects
-getProjects :: Int -> Int -> GerritProjectQuery -> GerritClient -> IO GerritProjectsMessage
-getProjects count start query = gerritGet ("projects/?" <> projectQS count query (Just start))
+getProjects ::
+  -- | Count of projects to get back
+  Int ->
+  -- | The project query type
+  GerritProjectQuery ->
+  -- | Whether or not to ask result from offset
+  Maybe Int ->
+  -- | The client
+  GerritClient ->
+  IO GerritProjectsMessage
+getProjects count query startM = gerritGet ("projects/?" <> projectQS count query startM)
 
 -- | Search for changes
-queryChanges :: Int -> [GerritQuery] -> Maybe Int -> GerritClient -> IO [GerritChange]
+queryChanges ::
+  -- | Count of changes to get back
+  Int ->
+  -- | The change query
+  [GerritQuery] ->
+  -- | Whether or not to ask result from offset
+  Maybe Int ->
+  -- | The client
+  GerritClient ->
+  IO [GerritChange]
 queryChanges count queries startM = gerritGet ("changes/?" <> changeQS count queries startM)
 
 -- | Get a change by change Id
