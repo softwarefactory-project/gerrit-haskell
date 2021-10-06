@@ -5,6 +5,7 @@ module Gerrit
   ( -- * Client
     GerritClient,
     withClient,
+    getClient,
 
     -- * Api
     getVersion,
