@@ -4,7 +4,7 @@
 
 module Gerrit.Data.Project
   ( GerritProjectInfo (..),
-    ProjectQuery (..),
+    GerritProjectQuery (..),
     projectQS,
     GerritProjectsMessage,
   )
@@ -16,15 +16,15 @@ import Data.Map
 import Data.Text (Text, intercalate, pack)
 import GHC.Generics (Generic)
 
-data ProjectQuery = Regexp Text | Prefix Text
+data GerritProjectQuery = Regexp Text | Prefix Text
 
-queryText :: ProjectQuery -> Text
+queryText :: GerritProjectQuery -> Text
 queryText (Regexp re) = "r=" <> re
 queryText (Prefix prefix) = "p=" <> prefix
 
 -- >>> projectQS 10 (Regexp "test/.*|rpms/.*") Nothing
 -- "r:test/.*|rpms/.*&n=10"
-projectQS :: Int -> ProjectQuery -> Maybe Int -> Text
+projectQS :: Int -> GerritProjectQuery -> Maybe Int -> Text
 projectQS count query startM =
   intercalate "&" [qtString, countString] <> startString
   where

@@ -23,6 +23,7 @@ module Gerrit
     ReviewResult (..),
     GerritAccount (..),
     GerritAccountQuery (..),
+    GerritProjectQuery (..),
 
     -- * Convenient functions
     changeUrl,
@@ -51,7 +52,7 @@ getVersion :: GerritClient -> IO GerritVersion
 getVersion = gerritGet "config/server/version"
 
 -- | Get projects
-getProjects :: Int -> Int -> ProjectQuery -> GerritClient -> IO GerritProjectsMessage
+getProjects :: Int -> Int -> GerritProjectQuery -> GerritClient -> IO GerritProjectsMessage
 getProjects count start query = gerritGet ("projects/?" <> projectQS count query (Just start))
 
 -- | Search for changes
