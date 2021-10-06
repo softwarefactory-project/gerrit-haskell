@@ -180,7 +180,7 @@ instance FromJSON GerritAuthor where
 data GerritCommitAuthor = GerritCommitAuthor
   { caName :: Text,
     caEmail :: Text,
-    caDate :: Text
+    caDate :: GerritTime
   }
   deriving (Show, Generic)
 
