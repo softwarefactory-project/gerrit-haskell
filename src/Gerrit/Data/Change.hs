@@ -16,6 +16,7 @@ module Gerrit.Data.Change
     GerritCommitAuthor (..),
     GerritChangeMessage (..),
     GerritChange (..),
+    GerritTime (..),
     changeQS,
     queryText,
     defaultQueryChangeOptions,
