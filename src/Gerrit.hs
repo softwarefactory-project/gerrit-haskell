@@ -28,6 +28,7 @@ module Gerrit
 
     -- * Convenient functions
     changeUrl,
+    serverUrl,
   )
 where
 
@@ -43,6 +44,10 @@ import Gerrit.Data.Change
 import Gerrit.Data.Project
 import Gerrit.Data.Review
 import Network.HTTP.Client (HttpException)
+
+-- | Return the base url of the 'GerritClient'
+serverUrl :: GerritClient -> T.Text
+serverUrl = baseUrl
 
 -- | Return the url of a 'GerritChange'
 changeUrl :: GerritClient -> GerritChange -> T.Text
