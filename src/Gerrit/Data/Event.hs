@@ -92,6 +92,7 @@ data Change = Change
   { changeProject :: Text,
     changeBranch :: Text,
     changeSubject :: Text,
+    changeNumber :: Int,
     changeUrl :: Text,
     changeOwner :: User
   }
