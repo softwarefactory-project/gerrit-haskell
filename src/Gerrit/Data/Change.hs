@@ -199,7 +199,7 @@ instance FromJSON GerritTime where
 
 data GerritChangeMessage = GerritChangeMessage
   { mId :: Text,
-    mauthor :: Maybe GerritAuthor,
+    mAuthor :: Maybe GerritAuthor,
     mDate :: GerritTime,
     mMessage :: Text
   }
