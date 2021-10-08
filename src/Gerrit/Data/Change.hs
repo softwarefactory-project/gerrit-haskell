@@ -170,7 +170,7 @@ data GerritDetailedLabel = GerritDetailedLabel
 data GerritAuthor = GerritAuthor
   { aAccountId :: Int,
     aName :: Text,
-    aEmail :: Text,
+    aEmail :: Maybe Text,
     aUsername :: Text
   }
   deriving (Show, Generic)
@@ -180,7 +180,7 @@ instance FromJSON GerritAuthor where
 
 data GerritCommitAuthor = GerritCommitAuthor
   { caName :: Text,
-    caEmail :: Text,
+    caEmail :: Maybe Text,
     caDate :: GerritTime
   }
   deriving (Show, Generic)
