@@ -224,7 +224,7 @@ data GerritChange = GerritChange
     created :: GerritTime,
     updated :: GerritTime,
     submitted :: Maybe GerritTime,
-    submitter :: GerritAuthor,
+    submitter :: Maybe GerritAuthor,
     insertions :: Int,
     deletions :: Int,
     more_changes :: Maybe Bool
