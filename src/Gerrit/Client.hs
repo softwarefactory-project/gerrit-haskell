@@ -13,13 +13,11 @@ where
 
 import Data.Aeson (FromJSON, ToJSON, eitherDecode, encode)
 import qualified Data.ByteString.Lazy as BSL
-import Data.Maybe (fromMaybe)
 import Data.Text (Text, unpack)
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as T
 import Network.HTTP.Client
 import Network.HTTP.Client.OpenSSL (newOpenSSLManager, withOpenSSL)
-import System.Environment (lookupEnv)
 
 -- | The GerritClient record, use 'withClient' to create
 data GerritClient = GerritClient
@@ -29,29 +27,24 @@ data GerritClient = GerritClient
   }
 
 -- | Need to be call through withOpenSSL
-getClient :: Text -> Maybe Text -> IO GerritClient
-getClient url username = do
+getClient :: Text -> Maybe (Text, Text) -> IO GerritClient
+getClient url auth = do
   let baseUrl = T.dropWhileEnd (== '/') url <> "/"
   manager <- newOpenSSLManager
-  auth <- case username of
-    Just user -> do
-      pass <- lookupEnv "GERRIT_PASSWORD"
-      pure $ Just (user, T.pack $ fromMaybe "" pass)
-    _ -> pure Nothing
   pure $ GerritClient {..}
 
 -- | Create the 'GerritClient'
 withClient ::
   -- | The gerrit api url
   Text ->
-  -- | A username (password is read from GERRIT_PASSWORD environment)
-  Maybe Text ->
+  -- | Credentials (login, password) [Optional]
+  Maybe (Text, Text) ->
   -- | The callback
   (GerritClient -> IO a) ->
   -- | withClient performs the IO
   IO a
-withClient url username callBack = withOpenSSL $ do
-  client <- getClient url username
+withClient url creds callBack = withOpenSSL $ do
+  client <- getClient url creds
   callBack client
 
 gerritDecode :: (FromJSON a, Applicative f) => Response BSL.ByteString -> f a

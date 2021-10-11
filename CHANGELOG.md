@@ -6,6 +6,7 @@
 - Split Data module into specialized modules
 - Support more fields for GerritChange
 - Add the getProjects function
+- withClient takes optional credentials
 
 ## 0.1.0.0 (2021-05-30)
 
