@@ -171,7 +171,7 @@ data GerritAuthor = GerritAuthor
   { aAccountId :: Int,
     aName :: Text,
     aEmail :: Maybe Text,
-    aUsername :: Text
+    aUsername :: Maybe Text
   }
   deriving (Show, Generic)
 
