@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.1.0 (next)
+## 0.1.1.0 (2021-10-13)
 
 - Add EventCreatedOn Event attribute
 - Split Data module into specialized modules
