@@ -17,6 +17,7 @@ import Data.Text (Text, intercalate, pack)
 import GHC.Generics (Generic)
 
 data GerritProjectQuery = Regexp Text | Prefix Text
+  deriving (Eq, Show)
 
 queryText :: GerritProjectQuery -> Text
 queryText (Regexp re) = "r=" <> re

@@ -54,6 +54,7 @@ data GerritQuery
   | Project Text
   | ChangeId Text
   | After UTCTime
+  deriving (Eq, Show)
 
 -- | Convert a GerritQuery object to the search terms
 queryText :: GerritQuery -> Text
@@ -124,7 +125,7 @@ data GerritFile = GerritFile
     gfSizeDelta :: Maybe Int,
     gfSize :: Maybe Int
   }
-  deriving (Show, Generic)
+  deriving (Eq, Show, Generic)
 
 instance FromJSON GerritFile where
   parseJSON = genericParseJSON $ aesonPrefix snakeCase
@@ -135,7 +136,7 @@ data GerritCommit = GerritCommit
     cSubject :: Text,
     cMessage :: Text
   }
-  deriving (Show, Generic)
+  deriving (Eq, Show, Generic)
 
 instance FromJSON GerritCommit where
   parseJSON = genericParseJSON $ aesonPrefix snakeCase
@@ -147,7 +148,7 @@ data GerritRevision = GerritRevision
     grCommit :: GerritCommit,
     grUploader :: GerritAuthor
   }
-  deriving (Show, Generic)
+  deriving (Eq, Show, Generic)
 
 instance FromJSON GerritRevision where
   parseJSON = genericParseJSON $ aesonPrefix snakeCase
@@ -156,7 +157,7 @@ data GerritDetailedLabelVote = GerritDetailedLabelVote
   { value :: Maybe Int,
     account_id :: Int
   }
-  deriving (Show, Generic)
+  deriving (Eq, Show, Generic)
 
 instance FromJSON GerritDetailedLabelVote where
   parseJSON = genericParseJSON aesonOptions
@@ -165,7 +166,7 @@ data GerritDetailedLabel = GerritDetailedLabel
   { all :: Maybe [GerritDetailedLabelVote],
     default_value :: Int
   }
-  deriving (Show, Generic, FromJSON)
+  deriving (Eq, Show, Generic, FromJSON)
 
 data GerritAuthor = GerritAuthor
   { aAccountId :: Int,
@@ -173,7 +174,7 @@ data GerritAuthor = GerritAuthor
     aEmail :: Maybe Text,
     aUsername :: Maybe Text
   }
-  deriving (Show, Generic)
+  deriving (Eq, Show, Generic)
 
 instance FromJSON GerritAuthor where
   parseJSON = genericParseJSON aesonOptions
@@ -183,12 +184,13 @@ data GerritCommitAuthor = GerritCommitAuthor
     caEmail :: Maybe Text,
     caDate :: GerritTime
   }
-  deriving (Show, Generic)
+  deriving (Eq, Show, Generic)
 
 instance FromJSON GerritCommitAuthor where
   parseJSON = genericParseJSON $ aesonPrefix snakeCase
 
-newtype GerritTime = GerritTime {unGerritTime :: UTCTime} deriving (Show)
+newtype GerritTime = GerritTime {unGerritTime :: UTCTime}
+  deriving (Eq, Show)
 
 instance FromJSON GerritTime where
   parseJSON = withText "UTCTimePlus" (parse . T.unpack)
@@ -203,7 +205,7 @@ data GerritChangeMessage = GerritChangeMessage
     mDate :: GerritTime,
     mMessage :: Text
   }
-  deriving (Show, Generic)
+  deriving (Eq, Show, Generic)
 
 instance FromJSON GerritChangeMessage where
   parseJSON = genericParseJSON $ aesonPrefix snakeCase
@@ -229,7 +231,7 @@ data GerritChange = GerritChange
     deletions :: Int,
     more_changes :: Maybe Bool
   }
-  deriving (Show, Generic)
+  deriving (Eq, Show, Generic)
 
 instance FromJSON GerritChange where
   parseJSON = genericParseJSON aesonOptions

@@ -24,6 +24,7 @@ data GerritAccountQuery
   | Username Text
   | IsActive
   | IsInactive
+  deriving (Eq, Show)
 
 userQueryText :: GerritAccountQuery -> Text
 userQueryText guq = case guq of

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2.0 (next)
+
+- Add missing Eq and Show instances
+
 ## 0.1.1.0 (2021-10-13)
 
 - Add EventCreatedOn Event attribute
