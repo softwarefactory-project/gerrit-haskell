@@ -27,7 +27,7 @@ source-repository head
 
 common common-options
   build-depends:       base                   >= 4.11.0.0 && < 5
-                     , aeson                  >= 1.0.0.0  && < 1.6
+                     , aeson                  >= 1.0.0.0  && < 2.1
                      , bytestring             < 0.11
                      , time                   >= 1.9.3    && < 2.0
   ghc-options:         -Wall
