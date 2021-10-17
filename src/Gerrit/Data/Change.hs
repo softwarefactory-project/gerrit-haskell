@@ -214,6 +214,7 @@ data GerritChange = GerritChange
   { id :: Text,
     project :: Text,
     branch :: Text,
+    hashtags :: [Text],
     subject :: Text,
     status :: GerritChangeStatus,
     mergeable :: Maybe Bool,
@@ -227,6 +228,7 @@ data GerritChange = GerritChange
     updated :: GerritTime,
     submitted :: Maybe GerritTime,
     submitter :: Maybe GerritAuthor,
+    topic :: Maybe Text,
     insertions :: Int,
     deletions :: Int,
     more_changes :: Maybe Bool

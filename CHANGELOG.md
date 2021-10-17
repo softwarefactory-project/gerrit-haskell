@@ -3,6 +3,7 @@
 ## 0.1.2.0 (next)
 
 - Add missing Eq and Show instances
+- Add support for change' fields: topic and hashtags
 
 ## 0.1.1.0 (2021-10-13)
 
