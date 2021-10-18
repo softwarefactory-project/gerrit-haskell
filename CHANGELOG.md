@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.2.0 (next)
+## 0.1.2.0 (2021-10-18)
 
 - Add missing Eq and Show instances
 - Add support for change' fields: topic and hashtags
