@@ -52,14 +52,18 @@ gerritDecode response = case eitherDecode $ BSL.drop 5 $ responseBody response o
   Left err -> error $ "Decoding of " <> show (responseBody response) <> " failed with: " <> err
   Right a -> pure a
 
+gerritRequest :: Text -> GerritClient -> IO Request
+gerritRequest path GerritClient {..} =
+  case auth of
+    Just (user, pass) ->
+      applyBasicAuth (T.encodeUtf8 user) (T.encodeUtf8 pass)
+        <$> parseUrlThrow (unpack $ baseUrl <> "a/" <> path)
+    Nothing -> parseUrlThrow (unpack $ baseUrl <> path)
+
 gerritPost :: (ToJSON a, FromJSON b) => Text -> a -> GerritClient -> IO b
-gerritPost path postData GerritClient {..} =
+gerritPost path postData client@GerritClient {..} =
   do
-    initRequest <- case auth of
-      Just (user, pass) ->
-        applyBasicAuth (T.encodeUtf8 user) (T.encodeUtf8 pass)
-          <$> parseUrlThrow (unpack $ baseUrl <> "a/" <> path)
-      Nothing -> parseUrlThrow (unpack $ baseUrl <> path)
+    initRequest <- gerritRequest path client
     let request =
           initRequest
             { method = "POST",
@@ -70,9 +74,8 @@ gerritPost path postData GerritClient {..} =
     gerritDecode response
 
 gerritGet :: (FromJSON a) => Text -> GerritClient -> IO a
-gerritGet path GerritClient {..} =
+gerritGet path client@GerritClient {..} =
   do
-    let url = baseUrl <> path
-    request <- parseUrlThrow (unpack url)
+    request <- gerritRequest path client
     response <- httpLbs request manager
     gerritDecode response

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3.0 (2021-10.21)
+
+- Honor the authentication for get request
+
 ## 0.1.2.0 (2021-10-18)
 
 - Add missing Eq and Show instances
