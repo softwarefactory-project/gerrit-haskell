@@ -170,7 +170,7 @@ data GerritDetailedLabel = GerritDetailedLabel
 
 data GerritAuthor = GerritAuthor
   { aAccountId :: Int,
-    aName :: Text,
+    aName :: Maybe Text,
     aEmail :: Maybe Text,
     aUsername :: Maybe Text
   }
