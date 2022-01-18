@@ -1,0 +1,54 @@
+{
+  "changer": {
+    "name": "Tristan de Cacqueray",
+    "email": "tdecacqu@redhat.com",
+    "username": "TristanCacqueray"
+  },
+  "patchSet": {
+    "number": 6,
+    "revision": "dbe1837841ddd1278677214d77a5365fab68ba88",
+    "parents": [
+      "3a0179a4f5c3e6149aab53b5176157dfca48ad5f"
+    ],
+    "ref": "refs/changes/54/23354/6",
+    "uploader": {
+      "name": "Tristan de Cacqueray",
+      "email": "tdecacqu@redhat.com",
+      "username": "TristanCacqueray"
+    },
+    "createdOn": 1642448281,
+    "author": {
+      "name": "Tristan de Cacqueray",
+      "email": "tdecacqu@redhat.com",
+      "username": "TristanCacqueray"
+    },
+    "kind": "REWORK",
+    "sizeInsertions": 17,
+    "sizeDeletions": 10
+  },
+  "change": {
+    "project": "software-factory/sf-config",
+    "branch": "3.6",
+    "topic": "gerrit-3.4",
+    "id": "I9b8f6a4d8a379b8c82a10a84aa7d9e8850a72ef6",
+    "number": 23354,
+    "subject": "Add support for gerrit 3.4",
+    "owner": {
+      "name": "Tristan de Cacqueray",
+      "email": "tdecacqu@redhat.com",
+      "username": "TristanCacqueray"
+    },
+    "url": "https://softwarefactory-project.io/r/c/software-factory/sf-config/+/23354",
+    "commitMessage": "Add support for gerrit 3.4\n\nChange-Id: I9b8f6a4d8a379b8c82a10a84aa7d9e8850a72ef6\n",
+    "createdOn": 1638894090,
+    "status": "NEW",
+    "wip": true
+  },
+  "project": "software-factory/sf-config",
+  "refName": "refs/heads/3.6",
+  "changeKey": {
+    "id": "I9b8f6a4d8a379b8c82a10a84aa7d9e8850a72ef6"
+  },
+  "type": "wip-state-changed",
+  "eventCreatedOn": 1642513882
+}

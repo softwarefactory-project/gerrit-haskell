@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.5.0
+
+- Add missing attributes for the Event.Change
+
 ## 0.1.4.0
 
 - Set GerritAuthor name field as optional

@@ -66,6 +66,9 @@ encodingTests dataFiles client =
         testCase "Test EventRefUpdated.json" $
           assertBool "EventRefUpdated is decoded" $
             isEventRefUpdated $ decode $ getRaw "EventRefUpdated.json",
+        testCase "Test EventWipStateChanged.json" $
+          assertBool "EventWipStateChanged is decoded" $
+            isEventWIPChanged $ decode $ getRaw "EventWipStateChanged.json",
         testCase "Test ReviewResult.json" $
           assertBool "ReviewResult is decoded" $
             isReviewResult $ decode $ getRaw "ReviewResult.json",
@@ -106,6 +109,9 @@ encodingTests dataFiles client =
       _ -> False
     isEventRefUpdated = \case
       Just (Event.EventRefUpdated _) -> True
+      _ -> False
+    isEventWIPChanged = \case
+      Just (Event.EventWorkInProgressStateChanged _) -> True
       _ -> False
     isChange :: Maybe GerritChange -> Bool
     isChange = \case

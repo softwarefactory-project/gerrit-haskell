@@ -94,7 +94,10 @@ data Change = Change
     changeSubject :: Text,
     changeNumber :: Int,
     changeUrl :: Text,
-    changeOwner :: User
+    changeOwner :: User,
+    changeWip :: Maybe Bool,
+    changeTopic :: Maybe Text,
+    changeCreatedOn :: Int64
   }
   deriving (Show, Eq, Generic)
 
