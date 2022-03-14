@@ -8,6 +8,7 @@ module Gerrit.Client
     gerritGet,
     gerritPost,
     getClient,
+    getClientWithManager,
   )
 where
 
@@ -29,9 +30,14 @@ data GerritClient = GerritClient
 -- | Need to be call through withOpenSSL
 getClient :: Text -> Maybe (Text, Text) -> IO GerritClient
 getClient url auth = do
-  let baseUrl = T.dropWhileEnd (== '/') url <> "/"
   manager <- newOpenSSLManager
-  pure $ GerritClient {..}
+  pure $ getClientWithManager manager url auth
+
+-- | Creates a GerritClient with a provided http manager.
+getClientWithManager :: Manager -> Text -> Maybe (Text, Text) -> GerritClient
+getClientWithManager manager url auth =
+  let baseUrl = T.dropWhileEnd (== '/') url <> "/"
+   in GerritClient {..}
 
 -- | Create the 'GerritClient'
 withClient ::

@@ -3,6 +3,7 @@
 ## 0.1.5.0
 
 - Add missing attributes for the Event.Change
+- Add getClientWithManager to support custom Manager
 
 ## 0.1.4.0
 
