@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.5.1
+
+- Allow bytestring-0.11
+
 ## 0.1.5.0
 
 - Add missing attributes for the Event.Change

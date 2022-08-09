@@ -1,6 +1,6 @@
 cabal-version:       2.4
 name:                gerrit
-version:             0.1.5.0
+version:             0.1.5.1
 synopsis:            A gerrit client library
 description:
     Gerrit is a client library to interface with https://www.gerritcodereview.com/
