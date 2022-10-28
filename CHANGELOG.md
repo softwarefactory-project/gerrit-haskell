@@ -4,6 +4,7 @@
 
 - Add a nix flake
 - Add the work_in_progress change field support
+- Remove invalid change status "DRAFT"
 
 ## 0.1.5.1
 

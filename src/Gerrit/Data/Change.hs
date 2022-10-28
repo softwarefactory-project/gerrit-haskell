@@ -111,7 +111,7 @@ hasLabel label labelValue change = case M.lookup label (labels change) of
           (fromMaybe [] (Gerrit.Data.Change.all gerritLabel))
   _ -> False
 
-data GerritChangeStatus = NEW | MERGED | ABANDONED | DRAFT
+data GerritChangeStatus = NEW | MERGED | ABANDONED
   deriving (Eq, Show, Generic, FromJSON)
 
 -- https://gerrit-review.googlesource.com/Documentation/json.html
