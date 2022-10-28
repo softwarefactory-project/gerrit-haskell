@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.6.0
+
+- Add a nix flake
+- Add the work_in_progress change field support
+
 ## 0.1.5.1
 
 - Allow bytestring-0.11

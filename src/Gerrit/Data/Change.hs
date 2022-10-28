@@ -231,7 +231,8 @@ data GerritChange = GerritChange
     topic :: Maybe Text,
     insertions :: Int,
     deletions :: Int,
-    more_changes :: Maybe Bool
+    more_changes :: Maybe Bool,
+    work_in_progress :: Maybe Bool
   }
   deriving (Eq, Show, Generic)
 
