@@ -3,28 +3,27 @@
   nixConfig.bash-prompt = "[nix(gerrit-haskell)] ";
 
   inputs = {
-    hspkgs.url =
-      "github:podenv/hspkgs/8596beefeb8471cbafae9bdefb6cb5de8dbc5627";
+    nixpkgs.url =
+      "github:NixOS/nixpkgs/d3780c92e64472e8f9aa54f7bbb0dd4483b98303";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, hspkgs, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
       let
-        packageName = "gerrit-haskell";
-        pkgs = hspkgs.pkgs;
-        haskellPackages = pkgs.hspkgs;
-        myPackage = haskellPackages.callCabal2nix packageName self { };
+        pkgs = nixpkgs.legacyPackages.${system};
+        myPackage =
+          pkgs.haskellPackages.callCabal2nix "gerrit-haskell" self { };
 
       in {
         defaultPackage = myPackage;
 
-        devShell = haskellPackages.shellFor {
+        devShell = pkgs.haskellPackages.shellFor {
           packages = p: [ myPackage ];
 
           buildInputs = [
             pkgs.ghcid
-            pkgs.ormolu
+            pkgs.haskellPackages.fourmolu
             pkgs.cabal-install
             pkgs.hlint
             pkgs.haskell-language-server

@@ -3,8 +3,8 @@
 {-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Gerrit.Data.Change
-  ( GerritQuery (..),
+module Gerrit.Data.Change (
+    GerritQuery (..),
     GerritChangeStatus (..),
     GerritRevisionKind (..),
     GerritFile (..),
@@ -21,7 +21,7 @@ module Gerrit.Data.Change
     queryText,
     defaultQueryChangeOptions,
     hasLabel,
-  )
+)
 where
 
 import Data.Aeson
@@ -35,7 +35,7 @@ import Data.Time.Format (defaultTimeLocale, formatTime, parseTimeM)
 import GHC.Generics (Generic)
 
 aesonOptions :: Options
-aesonOptions = defaultOptions {fieldLabelModifier = recordToJson}
+aesonOptions = defaultOptions{fieldLabelModifier = recordToJson}
   where
     recordToJson "number" = "_number"
     recordToJson "account_id" = "_account_id"
@@ -48,13 +48,13 @@ aesonOptions = defaultOptions {fieldLabelModifier = recordToJson}
 
 -- https://gerrit-review.googlesource.com/Documentation/user-search.html
 data GerritQuery
-  = Status GerritChangeStatus
-  | Owner Text
-  | CommitMessage Text
-  | Project Text
-  | ChangeId Text
-  | After UTCTime
-  deriving (Eq, Show)
+    = Status GerritChangeStatus
+    | Owner Text
+    | CommitMessage Text
+    | Project Text
+    | ChangeId Text
+    | After UTCTime
+    deriving (Eq, Show)
 
 -- | Convert a GerritQuery object to the search terms
 queryText :: GerritQuery -> Text
@@ -69,32 +69,33 @@ queryText (After date') = "after:" <> T.pack formatedDate
 
 defaultQueryChangeOptions :: Text
 defaultQueryChangeOptions =
-  "o="
-    <> T.intercalate
-      "&o="
-      [ "MESSAGES",
-        "DETAILED_ACCOUNTS",
-        "DETAILED_LABELS",
-        "CURRENT_REVISION",
-        "CURRENT_FILES",
-        "CURRENT_COMMIT"
-      ]
+    "o="
+        <> T.intercalate
+            "&o="
+            [ "MESSAGES"
+            , "DETAILED_ACCOUNTS"
+            , "DETAILED_LABELS"
+            , "CURRENT_REVISION"
+            , "CURRENT_FILES"
+            , "CURRENT_COMMIT"
+            ]
 
--- | Build the Query String for the changes endpoint
--- >>> changeQS 10 [Project "software-factory/gerrit-haskell"] Nothing
--- "q=project:software-factory/gerrit-haskell&n=10&o=MESSAGES&o=DETAILED_ACCOUNTS&o=DETAILED_LABELS&o=CURRENT_REVISION&o=CURRENT_FILES&o=CURRENT_COMMIT"
--- >>> changeQS 10 [Project "software-factory/gerrit-haskell"] $ Just 100
--- "q=project:software-factory/gerrit-haskell&n=10&o=MESSAGES&o=DETAILED_ACCOUNTS&o=DETAILED_LABELS&o=CURRENT_REVISION&o=CURRENT_FILES&o=CURRENT_COMMIT&start=100"
+{- | Build the Query String for the changes endpoint
+>>> changeQS 10 [Project "software-factory/gerrit-haskell"] Nothing
+"q=project:software-factory/gerrit-haskell&n=10&o=MESSAGES&o=DETAILED_ACCOUNTS&o=DETAILED_LABELS&o=CURRENT_REVISION&o=CURRENT_FILES&o=CURRENT_COMMIT"
+>>> changeQS 10 [Project "software-factory/gerrit-haskell"] $ Just 100
+"q=project:software-factory/gerrit-haskell&n=10&o=MESSAGES&o=DETAILED_ACCOUNTS&o=DETAILED_LABELS&o=CURRENT_REVISION&o=CURRENT_FILES&o=CURRENT_COMMIT&start=100"
+-}
 changeQS :: Int -> [GerritQuery] -> Maybe Int -> Text
 changeQS count queries startM =
-  let base =
-        T.intercalate
-          "&"
-          [ changeString,
-            countString,
-            defaultQueryChangeOptions
-          ]
-   in base <> startString
+    let base =
+            T.intercalate
+                "&"
+                [ changeString
+                , countString
+                , defaultQueryChangeOptions
+                ]
+     in base <> startString
   where
     changeString = "q=" <> T.intercalate "+" (map queryText queries)
     countString = "n=" <> T.pack (show count)
@@ -103,138 +104,138 @@ changeQS count queries startM =
 -- | Check if a gerrit change as a label
 hasLabel :: T.Text -> Int -> GerritChange -> Bool
 hasLabel label labelValue change = case M.lookup label (labels change) of
-  Just gerritLabel ->
-    (> 0) $
-      length $
-        filter
-          (\vote -> fromMaybe 0 (value vote) == labelValue)
-          (fromMaybe [] (Gerrit.Data.Change.all gerritLabel))
-  _ -> False
+    Just gerritLabel ->
+        (> 0) $
+            length $
+                filter
+                    (\vote -> fromMaybe 0 (value vote) == labelValue)
+                    (fromMaybe [] (Gerrit.Data.Change.all gerritLabel))
+    _ -> False
 
 data GerritChangeStatus = NEW | MERGED | ABANDONED
-  deriving (Eq, Show, Generic, FromJSON)
+    deriving (Eq, Show, Generic, FromJSON)
 
 -- https://gerrit-review.googlesource.com/Documentation/json.html
 data GerritRevisionKind = REWORK | TRIVIAL_REBASE | MERGE_FIRST_PARENT_UPDATE | NO_CODE_CHANGE | NO_CHANGE
-  deriving (Eq, Show, Generic, FromJSON)
+    deriving (Eq, Show, Generic, FromJSON)
 
 data GerritFile = GerritFile
-  { gfStatus :: Maybe Text,
-    gfLinesInserted :: Maybe Int,
-    gfLinesDeleted :: Maybe Int,
-    gfSizeDelta :: Maybe Int,
-    gfSize :: Maybe Int
-  }
-  deriving (Eq, Show, Generic)
+    { gfStatus :: Maybe Text
+    , gfLinesInserted :: Maybe Int
+    , gfLinesDeleted :: Maybe Int
+    , gfSizeDelta :: Maybe Int
+    , gfSize :: Maybe Int
+    }
+    deriving (Eq, Show, Generic)
 
 instance FromJSON GerritFile where
-  parseJSON = genericParseJSON $ aesonPrefix snakeCase
+    parseJSON = genericParseJSON $ aesonPrefix snakeCase
 
 data GerritCommit = GerritCommit
-  { cAuthor :: GerritCommitAuthor,
-    cCommitter :: GerritCommitAuthor,
-    cSubject :: Text,
-    cMessage :: Text
-  }
-  deriving (Eq, Show, Generic)
+    { cAuthor :: GerritCommitAuthor
+    , cCommitter :: GerritCommitAuthor
+    , cSubject :: Text
+    , cMessage :: Text
+    }
+    deriving (Eq, Show, Generic)
 
 instance FromJSON GerritCommit where
-  parseJSON = genericParseJSON $ aesonPrefix snakeCase
+    parseJSON = genericParseJSON $ aesonPrefix snakeCase
 
 data GerritRevision = GerritRevision
-  { grRef :: Text,
-    grKind :: GerritRevisionKind,
-    grFiles :: M.Map Text GerritFile,
-    grCommit :: GerritCommit,
-    grUploader :: GerritAuthor
-  }
-  deriving (Eq, Show, Generic)
+    { grRef :: Text
+    , grKind :: GerritRevisionKind
+    , grFiles :: M.Map Text GerritFile
+    , grCommit :: GerritCommit
+    , grUploader :: GerritAuthor
+    }
+    deriving (Eq, Show, Generic)
 
 instance FromJSON GerritRevision where
-  parseJSON = genericParseJSON $ aesonPrefix snakeCase
+    parseJSON = genericParseJSON $ aesonPrefix snakeCase
 
 data GerritDetailedLabelVote = GerritDetailedLabelVote
-  { value :: Maybe Int,
-    account_id :: Int
-  }
-  deriving (Eq, Show, Generic)
+    { value :: Maybe Int
+    , account_id :: Int
+    }
+    deriving (Eq, Show, Generic)
 
 instance FromJSON GerritDetailedLabelVote where
-  parseJSON = genericParseJSON aesonOptions
+    parseJSON = genericParseJSON aesonOptions
 
 data GerritDetailedLabel = GerritDetailedLabel
-  { all :: Maybe [GerritDetailedLabelVote],
-    default_value :: Int
-  }
-  deriving (Eq, Show, Generic, FromJSON)
+    { all :: Maybe [GerritDetailedLabelVote]
+    , default_value :: Int
+    }
+    deriving (Eq, Show, Generic, FromJSON)
 
 data GerritAuthor = GerritAuthor
-  { aAccountId :: Int,
-    aName :: Maybe Text,
-    aEmail :: Maybe Text,
-    aUsername :: Maybe Text
-  }
-  deriving (Eq, Show, Generic)
+    { aAccountId :: Int
+    , aName :: Maybe Text
+    , aEmail :: Maybe Text
+    , aUsername :: Maybe Text
+    }
+    deriving (Eq, Show, Generic)
 
 instance FromJSON GerritAuthor where
-  parseJSON = genericParseJSON aesonOptions
+    parseJSON = genericParseJSON aesonOptions
 
 data GerritCommitAuthor = GerritCommitAuthor
-  { caName :: Text,
-    caEmail :: Maybe Text,
-    caDate :: GerritTime
-  }
-  deriving (Eq, Show, Generic)
+    { caName :: Text
+    , caEmail :: Maybe Text
+    , caDate :: GerritTime
+    }
+    deriving (Eq, Show, Generic)
 
 instance FromJSON GerritCommitAuthor where
-  parseJSON = genericParseJSON $ aesonPrefix snakeCase
+    parseJSON = genericParseJSON $ aesonPrefix snakeCase
 
 newtype GerritTime = GerritTime {unGerritTime :: UTCTime}
-  deriving (Eq, Show)
+    deriving (Eq, Show)
 
 instance FromJSON GerritTime where
-  parseJSON = withText "UTCTimePlus" (parse . T.unpack)
-    where
-      format = "%F %T.000000000"
-      tryParse = parseTimeM False defaultTimeLocale
-      parse s = GerritTime <$> tryParse format s
+    parseJSON = withText "UTCTimePlus" (parse . T.unpack)
+      where
+        format = "%F %T.000000000"
+        tryParse = parseTimeM False defaultTimeLocale
+        parse s = GerritTime <$> tryParse format s
 
 data GerritChangeMessage = GerritChangeMessage
-  { mId :: Text,
-    mAuthor :: Maybe GerritAuthor,
-    mDate :: GerritTime,
-    mMessage :: Text
-  }
-  deriving (Eq, Show, Generic)
+    { mId :: Text
+    , mAuthor :: Maybe GerritAuthor
+    , mDate :: GerritTime
+    , mMessage :: Text
+    }
+    deriving (Eq, Show, Generic)
 
 instance FromJSON GerritChangeMessage where
-  parseJSON = genericParseJSON $ aesonPrefix snakeCase
+    parseJSON = genericParseJSON $ aesonPrefix snakeCase
 
 data GerritChange = GerritChange
-  { id :: Text,
-    project :: Text,
-    branch :: Text,
-    hashtags :: [Text],
-    subject :: Text,
-    status :: GerritChangeStatus,
-    mergeable :: Maybe Bool,
-    revisions :: M.Map Text (Maybe GerritRevision),
-    current_revision :: Maybe Text,
-    number :: Int,
-    labels :: M.Map Text GerritDetailedLabel,
-    messages :: [GerritChangeMessage],
-    owner :: GerritAuthor,
-    created :: GerritTime,
-    updated :: GerritTime,
-    submitted :: Maybe GerritTime,
-    submitter :: Maybe GerritAuthor,
-    topic :: Maybe Text,
-    insertions :: Int,
-    deletions :: Int,
-    more_changes :: Maybe Bool,
-    work_in_progress :: Maybe Bool
-  }
-  deriving (Eq, Show, Generic)
+    { id :: Text
+    , project :: Text
+    , branch :: Text
+    , hashtags :: [Text]
+    , subject :: Text
+    , status :: GerritChangeStatus
+    , mergeable :: Maybe Bool
+    , revisions :: M.Map Text (Maybe GerritRevision)
+    , current_revision :: Maybe Text
+    , number :: Int
+    , labels :: M.Map Text GerritDetailedLabel
+    , messages :: [GerritChangeMessage]
+    , owner :: GerritAuthor
+    , created :: GerritTime
+    , updated :: GerritTime
+    , submitted :: Maybe GerritTime
+    , submitter :: Maybe GerritAuthor
+    , topic :: Maybe Text
+    , insertions :: Int
+    , deletions :: Int
+    , more_changes :: Maybe Bool
+    , work_in_progress :: Maybe Bool
+    }
+    deriving (Eq, Show, Generic)
 
 instance FromJSON GerritChange where
-  parseJSON = genericParseJSON aesonOptions
+    parseJSON = genericParseJSON aesonOptions

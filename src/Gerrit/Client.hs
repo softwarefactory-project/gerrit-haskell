@@ -2,14 +2,14 @@
 {-# LANGUAGE RecordWildCards #-}
 
 -- | This module contains the internal gerrit REST client
-module Gerrit.Client
-  ( GerritClient (baseUrl),
+module Gerrit.Client (
+    GerritClient (baseUrl),
     withClient,
     gerritGet,
     gerritPost,
     getClient,
     getClientWithManager,
-  )
+)
 where
 
 import Data.Aeson (FromJSON, ToJSON, eitherDecode, encode)
@@ -22,66 +22,66 @@ import Network.HTTP.Client.OpenSSL (newOpenSSLManager, withOpenSSL)
 
 -- | The GerritClient record, use 'withClient' to create
 data GerritClient = GerritClient
-  { baseUrl :: Text,
-    manager :: Manager,
-    auth :: Maybe (Text, Text)
-  }
+    { baseUrl :: Text
+    , manager :: Manager
+    , auth :: Maybe (Text, Text)
+    }
 
 -- | Need to be call through withOpenSSL
 getClient :: Text -> Maybe (Text, Text) -> IO GerritClient
 getClient url auth = do
-  manager <- newOpenSSLManager
-  pure $ getClientWithManager manager url auth
+    manager <- newOpenSSLManager
+    pure $ getClientWithManager manager url auth
 
 -- | Creates a GerritClient with a provided http manager.
 getClientWithManager :: Manager -> Text -> Maybe (Text, Text) -> GerritClient
 getClientWithManager manager url auth =
-  let baseUrl = T.dropWhileEnd (== '/') url <> "/"
-   in GerritClient {..}
+    let baseUrl = T.dropWhileEnd (== '/') url <> "/"
+     in GerritClient{..}
 
 -- | Create the 'GerritClient'
 withClient ::
-  -- | The gerrit api url
-  Text ->
-  -- | Credentials (login, password) [Optional]
-  Maybe (Text, Text) ->
-  -- | The callback
-  (GerritClient -> IO a) ->
-  -- | withClient performs the IO
-  IO a
+    -- | The gerrit api url
+    Text ->
+    -- | Credentials (login, password) [Optional]
+    Maybe (Text, Text) ->
+    -- | The callback
+    (GerritClient -> IO a) ->
+    -- | withClient performs the IO
+    IO a
 withClient url creds callBack = withOpenSSL $ do
-  client <- getClient url creds
-  callBack client
+    client <- getClient url creds
+    callBack client
 
 gerritDecode :: (FromJSON a, Applicative f) => Response BSL.ByteString -> f a
 gerritDecode response = case eitherDecode $ BSL.drop 5 $ responseBody response of
-  Left err -> error $ "Decoding of " <> show (responseBody response) <> " failed with: " <> err
-  Right a -> pure a
+    Left err -> error $ "Decoding of " <> show (responseBody response) <> " failed with: " <> err
+    Right a -> pure a
 
 gerritRequest :: Text -> GerritClient -> IO Request
-gerritRequest path GerritClient {..} =
-  case auth of
-    Just (user, pass) ->
-      applyBasicAuth (T.encodeUtf8 user) (T.encodeUtf8 pass)
-        <$> parseUrlThrow (unpack $ baseUrl <> "a/" <> path)
-    Nothing -> parseUrlThrow (unpack $ baseUrl <> path)
+gerritRequest path GerritClient{..} =
+    case auth of
+        Just (user, pass) ->
+            applyBasicAuth (T.encodeUtf8 user) (T.encodeUtf8 pass)
+                <$> parseUrlThrow (unpack $ baseUrl <> "a/" <> path)
+        Nothing -> parseUrlThrow (unpack $ baseUrl <> path)
 
 gerritPost :: (ToJSON a, FromJSON b) => Text -> a -> GerritClient -> IO b
-gerritPost path postData client@GerritClient {..} =
-  do
-    initRequest <- gerritRequest path client
-    let request =
-          initRequest
-            { method = "POST",
-              requestHeaders = requestHeaders initRequest <> [("Content-Type", "application/json; charset=UTF-8")],
-              requestBody = RequestBodyLBS $ encode postData
-            }
-    response <- httpLbs request manager
-    gerritDecode response
+gerritPost path postData client@GerritClient{..} =
+    do
+        initRequest <- gerritRequest path client
+        let request =
+                initRequest
+                    { method = "POST"
+                    , requestHeaders = requestHeaders initRequest <> [("Content-Type", "application/json; charset=UTF-8")]
+                    , requestBody = RequestBodyLBS $ encode postData
+                    }
+        response <- httpLbs request manager
+        gerritDecode response
 
 gerritGet :: (FromJSON a) => Text -> GerritClient -> IO a
-gerritGet path client@GerritClient {..} =
-  do
-    request <- gerritRequest path client
-    response <- httpLbs request manager
-    gerritDecode response
+gerritGet path client@GerritClient{..} =
+    do
+        request <- gerritRequest path client
+        response <- httpLbs request manager
+        gerritDecode response

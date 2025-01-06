@@ -1,8 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- | This module contains the gerrit client library
-module Gerrit
-  ( -- * Client
+module Gerrit (
+    -- * Client
     GerritClient,
     withClient,
     getClient,
@@ -30,7 +30,7 @@ module Gerrit
     -- * Convenient functions
     changeUrl,
     serverUrl,
-  )
+)
 where
 
 import Control.Exception (try)
@@ -60,66 +60,66 @@ getVersion = gerritGet "config/server/version"
 
 -- | Get projects
 getProjects ::
-  -- | Count of projects to get back
-  Int ->
-  -- | The project query type
-  GerritProjectQuery ->
-  -- | Whether or not to ask result from offset
-  Maybe Int ->
-  -- | The client
-  GerritClient ->
-  IO GerritProjectsMessage
+    -- | Count of projects to get back
+    Int ->
+    -- | The project query type
+    GerritProjectQuery ->
+    -- | Whether or not to ask result from offset
+    Maybe Int ->
+    -- | The client
+    GerritClient ->
+    IO GerritProjectsMessage
 getProjects count query startM = gerritGet ("projects/?" <> projectQS count query startM)
 
 -- | Search for changes
 queryChanges ::
-  -- | Count of changes to get back
-  Int ->
-  -- | The change query
-  [GerritQuery] ->
-  -- | Whether or not to ask result from offset
-  Maybe Int ->
-  -- | The client
-  GerritClient ->
-  IO [GerritChange]
+    -- | Count of changes to get back
+    Int ->
+    -- | The change query
+    [GerritQuery] ->
+    -- | Whether or not to ask result from offset
+    Maybe Int ->
+    -- | The client
+    GerritClient ->
+    IO [GerritChange]
 queryChanges count queries startM = gerritGet ("changes/?" <> changeQS count queries startM)
 
 -- | Get a change by change Id
 getChange :: Int -> GerritClient -> IO (Maybe GerritChange)
 getChange changeNumber client = do
-  res <-
-    try
-      ( gerritGet ("changes/" <> T.pack (show changeNumber) <> "?" <> defaultQueryChangeOptions) client
-      ) ::
-      IO (Either HttpException GerritChange)
-  pure $ case res of
-    Right change -> Just change
-    Left _err -> Nothing
+    res <-
+        try
+            ( gerritGet ("changes/" <> T.pack (show changeNumber) <> "?" <> defaultQueryChangeOptions) client
+            ) ::
+            IO (Either HttpException GerritChange)
+    pure $ case res of
+        Right change -> Just change
+        Left _err -> Nothing
 
 -- | Post a review
 postReview ::
-  -- | The change to review
-  GerritChange ->
-  -- | A message
-  Text ->
-  -- | A label
-  Text ->
-  -- | A vote
-  Int ->
-  -- | The client
-  GerritClient ->
-  -- | Returns the ReviewResult
-  IO ReviewResult
+    -- | The change to review
+    GerritChange ->
+    -- | A message
+    Text ->
+    -- | A label
+    Text ->
+    -- | A vote
+    Int ->
+    -- | The client
+    GerritClient ->
+    -- | Returns the ReviewResult
+    IO ReviewResult
 postReview change message label value' = gerritPost urlPath review
   where
     urlPath = "changes/" <> changeId <> "/revisions/" <> revHash <> "/review"
     changeId = Gerrit.Data.Change.id change
     revHash = fromMaybe "" (Gerrit.Data.Change.current_revision change)
     review =
-      ReviewInput
-        { riMessage = Just message,
-          riLabels = Just (M.fromList [(label, value')])
-        }
+        ReviewInput
+            { riMessage = Just message
+            , riLabels = Just (M.fromList [(label, value')])
+            }
 
 -- | Get user account id
 getAccountId :: Int -> NonEmpty GerritAccountQuery -> GerritClient -> IO [GerritAccountId]
