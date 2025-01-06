@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.6.1
+
+- Apply hlint suggestion
+- Add version bounds to the build-depends
+
 ## 0.1.6.0
 
 - Add a nix flake

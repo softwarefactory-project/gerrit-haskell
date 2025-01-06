@@ -1,6 +1,6 @@
 cabal-version:       2.4
 name:                gerrit
-version:             0.1.6.0
+version:             0.1.6.1
 synopsis:            A gerrit client library
 description:
     Gerrit is a client library to interface with https://www.gerritcodereview.com/
@@ -26,10 +26,10 @@ source-repository head
   location:            https://github.com/softwarefactory-project/gerrit-haskell.git
 
 common common-options
-  build-depends:       base                   >= 4.11.0.0
-                     , aeson                  >= 1.0.0.0
-                     , bytestring
-                     , time                   >= 1.9.3
+  build-depends:       base                   >= 4.11 && < 5
+                     , aeson                  >= 2.0  && < 2.3
+                     , bytestring             >= 0.10 && < 0.13
+                     , time                   >= 1    && < 2
   ghc-options:         -Wall
                        -Wcompat
                        -Widentities
@@ -48,11 +48,11 @@ common common-options
 
 library
   import:              common-options
-  build-depends:       containers             >= 0.5.8.0
-                     , http-client            >= 0.5.0
-                     , http-client-openssl    >= 0.3.0
-                     , text                   >= 0.11.1.0
-                     , aeson-casing           >= 0.2.0.0
+  build-depends:       containers             >= 0.5.8.0 && < 0.8
+                     , http-client            >= 0.5.0   && < 0.8
+                     , http-client-openssl    >= 0.3.0   && < 1
+                     , text                   >= 0.11    && < 3
+                     , aeson-casing           >= 0.2.0.0 && < 0.4
 
   hs-source-dirs:      src
   exposed-modules:     Gerrit
@@ -68,10 +68,10 @@ test-suite gerrit-test
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             Spec.hs
-  build-depends:       directory
+  build-depends:       directory                  >= 1.0 && < 2
                      , gerrit
-                     , tasty                      >= 0.11.2
-                     , tasty-hunit                >= 0.10
+                     , tasty                      >= 0.11.2 && < 2
+                     , tasty-hunit                >= 0.10   && < 2
   ghc-options:         -threaded
                        -rtsopts
                        -with-rtsopts=-N

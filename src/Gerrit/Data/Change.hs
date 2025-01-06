@@ -196,7 +196,7 @@ instance FromJSON GerritTime where
   parseJSON = withText "UTCTimePlus" (parse . T.unpack)
     where
       format = "%F %T.000000000"
-      tryParse f s = parseTimeM False defaultTimeLocale f s
+      tryParse = parseTimeM False defaultTimeLocale
       parse s = GerritTime <$> tryParse format s
 
 data GerritChangeMessage = GerritChangeMessage
